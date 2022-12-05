@@ -1,13 +1,6 @@
 from django.db import models
 
 # Create your models here.
-class Country(models.Model):
-    nameCountry = models.CharField(primary_key=True, max_length=50)
-
-    class Meta:
-        
-        db_table = 'Country'
-
 class Zone(models.Model):
     nameZone = models.CharField(primary_key=True, max_length=50)
 
@@ -15,6 +8,13 @@ class Zone(models.Model):
         
         db_table = 'Zone'
 
+class Country(models.Model):
+    nameCountry = models.CharField(primary_key=True, max_length=50)
+    nameZone = models.ForeignKey('Zone', models.DO_NOTHING, db_column='nameZone', blank=True, null=True)
+
+    class Meta:
+        
+        db_table = 'Country'
 
 class DetailInvoice(models.Model):
     stockCode = models.ForeignKey('Product', models.DO_NOTHING, db_column='stockCode', blank=True, null=True)
@@ -27,7 +27,6 @@ class DetailInvoice(models.Model):
         
         db_table = 'DetailInvoice'
 
-
 class Invoice(models.Model):
     invoiceNo = models.CharField(primary_key=True, max_length=6)
     invoiceDate = models.DateTimeField(blank=True, null=True)
@@ -37,7 +36,6 @@ class Invoice(models.Model):
     class Meta:
         
         db_table = 'Invoice'
-
 
 class Product(models.Model):
     stockCode = models.CharField(primary_key=True, max_length=50)
