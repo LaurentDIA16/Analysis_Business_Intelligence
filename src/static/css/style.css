@@ -190,6 +190,10 @@ main {
     justify-content: space-between;
 }
 
+.header-actions {
+    display:flex;
+}
+
 .header-actions button {
     outline: none;
     color: #fff;
@@ -246,13 +250,11 @@ main {
     font-size: 5rem;
 }
 
-/* @media only screen and (max-width: 1800px) { 
-
-    .cards {
-        grid-template-columns: repeat(4);
-    }
-
-} */
+.container-import {
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+}
 
 @media only screen and (max-width: 1390px) {
 
@@ -307,7 +309,7 @@ main {
     }
 
     .cards {
-        grid-template-columns: 100%;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 

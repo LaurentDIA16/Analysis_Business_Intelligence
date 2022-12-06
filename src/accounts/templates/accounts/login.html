@@ -2,27 +2,52 @@
 
 {% block content %}
 
-<h1>Connexion</h1>
+<h1 class="text-center">Connexion</h1>
 <br><br>
 
-<div class="container">
-    <form action="" method=POST>
-        {% csrf_token %}
+<section class="vh-100">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+          class="img-fluid" alt="Sample image">
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <form action="" method="POST">
+          {% csrf_token %}
 
-        <form>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Nom d'utilisateur</label>
-              <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
-              <input type="password" class="form-control" name="password">
-            </div>
-            
-            <input type="submit" Value="Soumettre" class="btn btn-secondary">
+          <!-- Username input -->
+          <div class="form-outline mb-4">
+            <label for="exampleInputUsername" class="form-label"></label>
+            <input type="text" class="form-control form-control-lg" name="username" 
+              placeholder="Entrer nom d'utilisateur" />
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-3">
+            <input type="password" class="form-control form-control-lg" name="password" 
+              placeholder="Entrer mot de passe" />
+            <label class="form-label" for="form3Example4"></label>
+          </div>
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+            <input type="submit" class="btn btn-primary btn-lg"
+              style="padding-left: 2.5rem; padding-right: 2.5rem;" Value="Se connecter">
+          </div>
+
         </form>
+      </div>
+    </div>
+  </div>
+  <div
+    class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary fixed-bottom">
+    <!-- Copyright -->
+    <div class="text-white mb-3 mb-md-0">
+      Copyright © 2022 Analysis Business Intelligence
+    </div>
+    <!-- Copyright -->
 
-    </form>
-</div>
+  </div>
+</section>
 
 {% endblock %}

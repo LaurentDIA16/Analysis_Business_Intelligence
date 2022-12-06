@@ -21,11 +21,9 @@ from accounts.views import login_user, logout_user
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", home, name="home"),
-    # path("login/", login_user, name="login"),
-    path("login", login_user, name="login"),
-    path("logout/", logout_user, name="logout"),
-    # path("dashboard/", dashboard, name="dashboard"),
     path("import/", import_csv, name="import"), 
+    path("login/", login_user, name="login"),
+    path("logout/", logout_user, name="logout"),   
 ]
 
 

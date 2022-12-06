@@ -57,7 +57,7 @@
                 
                 <!-- Copyright -->
                     <div>
-                        <h3>© 2022 Copyright Analysis Business Intelligence</h3>
+                        <h3> Copyright © 2022 Analysis Business Intelligence</h3>
                     </div>
                 <!-- Copyright -->
 
@@ -79,9 +79,7 @@
                     <a class="btn btn-danger" aria-current="page" href="{%  url 'logout' %}">Déconnexion</a>
                 </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="btn btn-success" aria-current="page" href="{%  url 'login' %}">Connexion</a>
-                </li>
+                
                 {% endif %}
 
             </header>
@@ -96,22 +94,17 @@
                     </div>
                 </div>
 
-                <div class="container">
+                <div class="container-import">
                     
-                    <div class="header-actions">
+                    <!-- <div class="header-actions">
 
                         <!-- Sélectionner et importer un fichier CSV start -->
-                        <form method="POST" class="post-form" enctype="multipart/form-data">  
-                            {% csrf_token %}  
-                            {{ form }}  
-                            <button type="submit" class="save btn btn-default">Importer</button>  
-                        </form>
 
-                        <div class="mb-5">
-                            <label for="formFile" class="form-label">Default file input example</label>
-                            <input class="form-control" type="file" id="formFile">
+                        <!-- <div class="mb-5">
+                            <label for="formFile" class="form-label">Importer un csv</label>
+                            <input class="post-control" type="file" id="formFile" enctype="multipart/form-data">
                             <button type="submit" class="save btn btn-default">Importer</button>
-                        </div>
+                        </div> -->
                         <!-- Sélectionner et importer un fichier CSV start -->
 
                         <!-- <button>
@@ -122,8 +115,70 @@
                             <span class="las la-tools"></span>
                             Nettoyer
                         </button> -->
+                    <!-- </div> -->
+
+                    <!-- Card import csv et feedback starts -->
+                    <div class="card border-dark mb-3" style="max-width: 60rem;">
+                        <div class="card-header">
+                            <div class="header-actions">
+                                <!-- Sélectionner et importer un fichier CSV starts -->
+                                <form method="POST" class="post-form" enctype="multipart/form-data">  
+                                    {% csrf_token %}  
+                                    {{ form }}  
+                                    <button type="submit" class="save btn btn-default">Importer</button>  
+                                </form>
+                                <!-- Sélectionner et importer un fichier CSV ends -->
+
+                                <!-- Nettoyer les données starts -->
+                                <button>
+                                    <span class="las la-tools"></span>
+                                    Nettoyer
+                                </button>
+                                <!-- Nettoyer les données ends -->
+                            </div>  
+                        </div>
+
+                        <!-- Feedback starts -->    
+                        <div class="card-body text-dark">
+                          <h7 class="card-title">Feedback:</h7>
+                          <p class="card-text">Ici cela sera le feedback de l'import CSV</p>
+                        </div>
+                        <!-- Feedback ends --> 
+
+                    </div>
+                    <!-- Card import csv et feedback ends -->
+
+                </div>
+
+                <div class="cards">
+                    <div class="card-single">
+                        <div class="card-flex">
+                            <div class="card-info">
+                                <div class="card-head">
+                                    <div class="header-actions">
+                                        <!-- Sélectionner et importer un fichier CSV starts -->
+                                        <form method="POST" class="post-form" enctype="multipart/form-data">  
+                                            {% csrf_token %}  
+                                            {{ form }}  
+                                            <button type="submit" class="save btn btn-default">Importer</button>  
+                                        </form>
+                                        <!-- Sélectionner et importer un fichier CSV ends -->
+        
+                                        <!-- Nettoyer les données starts -->
+                                        <button>
+                                            <span class="las la-tools"></span>
+                                            Nettoyer
+                                        </button>
+                                        <!-- Nettoyer les données ends -->
+                                    </div>  
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
                     </div>
                 </div>
+                
 
                 <!-- KPI starts -->
                 <div class="cards">
@@ -162,7 +217,7 @@
                             <div class="card-info">
                                 <div class="card-head">
                                     <span>Livraisons</span>
-                                    <small>Nombre de pays <br> livrés</small>
+                                    <small>Nombre de pays livrés</small>
                                 </div>
                                 <h2>65</h2>
                             </div>
