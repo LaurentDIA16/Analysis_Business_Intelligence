@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" >
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-    <link rel="stylesheet" href="/src/static/css/style.css">
+    <!-- <link rel="stylesheet" href="{% static 'images/logo.png' %}"> -->
 </head>
 <body>
 
@@ -16,7 +18,7 @@
         <div class="sidebar">
             <div class="sidebar-brand">
                 <div class="brand-flex">
-                        <img src="/src/static/images/logo.png" width="86" height="86" alt="logo">
+                        <img src="{% static 'images/logo.png' %}" width="86" height="86" alt="logo">
                         <!-- <div class="brand-icons">
                             <span class="las la-bell"></span>
                             <span class="las la-user-circle"></span>
@@ -26,10 +28,10 @@
 
             <div class="sidebar-main">
                 <div class="sidebar-user">
-                    <img src="/src/static/images/robotia.png" width="250" height="250" alt="photo">
+                    <img src="{% static 'images/robotia.png' %}" width="250" height="250" alt="photo">
                     <div>
-                        <h3>Laurent</h3>
-                        <!-- <h3>{{ user.username }}</h3> -->
+                        <!-- <h3>Laurent</h3> -->
+                        <h3>{{ user.username }}</h3>
                     </div>
                 </div>
 
@@ -52,24 +54,6 @@
                                 </a>
                             </li>
                         </ul>
-
-                        <!-- <div class="menu-head">
-                            <span>Autres</span>
-                        </div>
-                        <ul>
-                            <li>
-                                <a href="">
-                                    <span class="las la-calendar"></span>
-                                    Calendrier
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <span class="las la-users"></span>
-                                    Contacts
-                                </a>
-                            </li>
-                        </ul> -->
                     </div>
                 </div>
             </div>
@@ -84,6 +68,17 @@
                         <span class="las la-bars"></span>
                     </label>
                 </div>
+
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{%  url 'logout' %}">Déconnexion</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{%  url 'login' %}">Connexion</a>
+                </li>
+                {% endif %}
+
 
                 <div class="header-icons">
                     <span class="las la-sign-out-alt">Connexion</span>
@@ -116,7 +111,7 @@
                 </div>
 
                 <!-- KPI starts -->
-                <div class="cards">
+                <!-- <div class="cards">
                     <div class="card-single">
                         <div class="card-flex">
                             <div class="card-info">
@@ -176,7 +171,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- KPI ends -->
 
             </main>
