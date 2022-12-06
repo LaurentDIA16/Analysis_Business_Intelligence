@@ -2,18 +2,27 @@
 
 {% block content %}
 
-    <form method="POST">
-        {% csrf_token %}
-        <p>
-            <label for="username">Nom d'utilisateur</label>
-            <input id="username" type="text" name="username">
-        </p>
-        <p>
-            <label for="password">Mot de passe</label>
-            <input id="username" type="password" name="password">
-        </p>
+<h1>Connexion</h1>
+<br><br>
 
-        <button type="submit">Connexion</button>
+<div class="container">
+    <form action="" method=POST>
+        {% csrf_token %}
+
+        <form>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Nom d'utilisateur</label>
+              <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
+              <input type="password" class="form-control" name="password">
+            </div>
+            
+            <input type="submit" Value="Soumettre" class="btn btn-secondary">
+        </form>
+
     </form>
+</div>
 
 {% endblock %}

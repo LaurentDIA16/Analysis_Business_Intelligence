@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
     {%  block content %}
+    {% if user.is_authenticated %}
+    {% include "dashboard/dashboard.html" %}
+
     
-    
+    {% else %}
+
+        <h1>Bonjour, veuillez vous connecter pour avoir accès à votre dashboard</h1>
+        <a class="btn btn-success" aria-current="page" href="{%  url 'login' %}">Connexion</a>
+
+    {% endif %}
     
     {% endblock %}

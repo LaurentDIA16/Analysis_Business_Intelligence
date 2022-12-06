@@ -15,14 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from dashboard.views import home
+from dashboard.views import home, import_csv
 from accounts.views import login_user, logout_user
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", home, name="home"),
-    path("login/", login_user, name="login"),
+    # path("login/", login_user, name="login"),
+    path("login", login_user, name="login"),
     path("logout/", logout_user, name="logout"),
+    # path("dashboard/", dashboard, name="dashboard"),
+    path("import/", import_csv, name="import"), 
 ]
 
 
