@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
+#Connexion
 def login_user(request):
     if request.method =="POST":
         #connecter l'utilisateur
@@ -15,6 +16,7 @@ def login_user(request):
             
     return render(request, 'accounts/login.html')
 
+#Déconnexion
 def logout_user(request):
     logout(request)
     return redirect('home')
