@@ -29,7 +29,7 @@ class DetailInvoice(models.Model):
 
 class Invoice(models.Model):
     invoiceNo = models.CharField(primary_key=True, max_length=6)
-    invoiceDate = models.DateTimeField(blank=True, null=True)
+    invoiceDate = models.CharField(blank=True, max_length=25, null=True)
     customerID = models.CharField(max_length=5, blank=True, null=True)
     nameCountry = models.ForeignKey(Country, models.DO_NOTHING, db_column='nameCountry')
 

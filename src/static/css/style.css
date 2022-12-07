@@ -192,12 +192,23 @@ main {
 
 .header-actions {
     display:flex;
+    padding: 20px;
 }
 
-.header-actions button {
+.header-actions-form button {
     outline: none;
     color: #fff;
-    background: #5850ec;
+    background: #747774;
+    border: none;
+    padding: 0.5rem 0.5rem;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.header-actions-button button {
+    outline: none;
+    color: #fff;
+    background: #0cb01c;
     border: none;
     padding: 0.5rem 0.5rem;
     border-radius: 5px;

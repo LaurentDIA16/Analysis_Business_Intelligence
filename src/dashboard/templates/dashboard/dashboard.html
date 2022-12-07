@@ -89,23 +89,21 @@
                 <div class="page-header">
                     <div>
                         <h1>Dashboard</h1>
-                        <small>Bienvenue sur votre dashboard. Importer vos CSV, 
-                        nettoyer les données et analyser vos graphiques</small>
+                        <h5>Bienvenue sur votre dashboard. Importer vos CSV, 
+                        nettoyer les données et analyser vos graphiques</h5> 
                     </div>
                 </div>
 
+                <!-- Sélectionner et importer un fichier CSV puis feedback starts -->
                 <div class="container-import">
                     
                     <!-- <div class="header-actions">
-
-                        <!-- Sélectionner et importer un fichier CSV start -->
 
                         <!-- <div class="mb-5">
                             <label for="formFile" class="form-label">Importer un csv</label>
                             <input class="post-control" type="file" id="formFile" enctype="multipart/form-data">
                             <button type="submit" class="save btn btn-default">Importer</button>
                         </div> -->
-                        <!-- Sélectionner et importer un fichier CSV start -->
 
                         <!-- <button>
                             <span class="las la-file-import"></span>
@@ -121,19 +119,23 @@
                     <div class="card border-dark mb-3" style="max-width: 60rem;">
                         <div class="card-header">
                             <div class="header-actions">
-                                <!-- Sélectionner et importer un fichier CSV starts -->
-                                <form method="POST" class="post-form" enctype="multipart/form-data">  
-                                    {% csrf_token %}  
-                                    {{ form }}  
-                                    <button type="submit" class="save btn btn-default">Importer</button>  
-                                </form>
+                                <div class="header-actions-form">
+                                    <!-- Sélectionner et importer un fichier CSV starts -->
+                                    <form method="POST" class="post-form" enctype="multipart/form-data">  
+                                        {% csrf_token %}  
+                                        {{ form }}  
+                                        <button type="submit" class="save btn btn-default">Importer</button>  
+                                    </form>
+                                </div>
                                 <!-- Sélectionner et importer un fichier CSV ends -->
 
                                 <!-- Nettoyer les données starts -->
-                                <button>
-                                    <span class="las la-tools"></span>
-                                    Nettoyer
-                                </button>
+                                <div class="header-actions-button">
+                                    <button>
+                                        <span class="las la-tools"></span>
+                                        Nettoyer
+                                    </button>
+                                </div>
                                 <!-- Nettoyer les données ends -->
                             </div>  
                         </div>
@@ -149,39 +151,9 @@
                     <!-- Card import csv et feedback ends -->
 
                 </div>
-
-                <div class="cards">
-                    <div class="card-single">
-                        <div class="card-flex">
-                            <div class="card-info">
-                                <div class="card-head">
-                                    <div class="header-actions">
-                                        <!-- Sélectionner et importer un fichier CSV starts -->
-                                        <form method="POST" class="post-form" enctype="multipart/form-data">  
-                                            {% csrf_token %}  
-                                            {{ form }}  
-                                            <button type="submit" class="save btn btn-default">Importer</button>  
-                                        </form>
-                                        <!-- Sélectionner et importer un fichier CSV ends -->
-        
-                                        <!-- Nettoyer les données starts -->
-                                        <button>
-                                            <span class="las la-tools"></span>
-                                            Nettoyer
-                                        </button>
-                                        <!-- Nettoyer les données ends -->
-                                    </div>  
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-                
-
+                <!-- Sélectionner et importer un fichier CSV puis feedback ends -->
                 <!-- KPI starts -->
-                <div class="cards">
+                <!-- <div class="cards">
                     <div class="card-single">
                         <div class="card-flex">
                             <div class="card-info">
@@ -241,7 +213,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- KPI ends -->
 
             </main>
