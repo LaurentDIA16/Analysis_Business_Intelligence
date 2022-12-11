@@ -25,6 +25,10 @@ class Command(BaseCommand):
         #Mettre en minuscule les noms de colonnes
         df.columns = [x.lower() for x in df.columns]
 
+        #Ajouter une colonne totalcost pour calculer le prix * quantité
+        df['totalcost'] = df.unitprice * df.quantity
+        # print(df.head())
+        
         #Supprimer les lignes doublons
         nbDuplicated = df.duplicated().sum()
         df = df.drop_duplicates()
@@ -103,8 +107,8 @@ class Command(BaseCommand):
             ON CONFLICT(invoiceno)
             DO NOTHING;
 
-        INSERT INTO dashboard_detailinvoice(invoiceno,stockcode,unitprice,quantity)
-            SELECT invoiceno,stockcode,unitprice,quantity
+        INSERT INTO dashboard_detailinvoice(invoiceno,stockcode,unitprice,quantity,totalcost)
+            SELECT invoiceno,stockcode,unitprice,quantity,totalcost
             FROM dashboard_datatransfert
             ON CONFLICT
             DO NOTHING;
@@ -117,3 +121,6 @@ class Command(BaseCommand):
 
         #Executer la requête pour envoi dans la BDD Postgre
         engine.execute(sql)
+
+
+            # UPDATE dashboard_detailinvoice SET totalcost=unitprice*quantity;
