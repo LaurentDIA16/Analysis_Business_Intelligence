@@ -12,10 +12,10 @@ def home(request):
     products = Product.objects.all().count()
     countries = Country.objects.all().count()
 
-    earningsfloat = DetailInvoice.objects.annotate(as_float=Cast('totalcost', FloatField())).aggregate(Sum('as_float'))
-    earnings = int(earningsfloat['as_float__sum'])
+    # earningsfloat = DetailInvoice.objects.annotate(as_float=Cast('totalcost', FloatField())).aggregate(Sum('as_float'))
+    # earnings = int(earningsfloat['as_float__sum'])
 
-    context = {'invoices':invoices,'products':products,'countries':countries,'earnings':earnings}
+    context = {'invoices':invoices,'products':products,'countries':countries}
 
     return render(request,"dashboard/home.html", context)
 
