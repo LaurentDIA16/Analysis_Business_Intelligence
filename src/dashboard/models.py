@@ -1,46 +1,37 @@
 from django.db import models
 
 # Create your models here.
-class Zone(models.Model):
-    nameZone = models.CharField(primary_key=True, max_length=50)
-
-    class Meta:
-        
-        db_table = 'Zone'
-
 class Country(models.Model):
-    nameCountry = models.CharField(primary_key=True, max_length=50)
-    nameZone = models.ForeignKey('Zone', models.DO_NOTHING, db_column='nameZone', blank=True, null=True)
+    country = models.CharField(primary_key=True, max_length=50)
+    zone = models.CharField(max_length=50, blank=True, null=True)
 
-    class Meta:
-        
-        db_table = 'Country'
 
 class DetailInvoice(models.Model):
-    stockCode = models.ForeignKey('Product', models.DO_NOTHING, db_column='stockCode', blank=True, null=True)
-    invoiceNo = models.ForeignKey('Invoice', models.DO_NOTHING, db_column='invoiceNo', blank=True, null=True)
-    unitPrice = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
-    quantity = models.IntegerField(blank=True, null=True)
+    stockcode = models.ForeignKey('Product', models.DO_NOTHING, db_column='stockcode', blank=True, null=True)
+    invoiceno = models.ForeignKey('Invoice', models.DO_NOTHING, db_column='invoiceno', blank=True, null=True)
+    unitprice = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    quantity = models.IntegerField(blank=False, null=False)
     detailInvoice_id = models.AutoField(primary_key=True)
 
-    class Meta:
-        
-        db_table = 'DetailInvoice'
 
 class Invoice(models.Model):
-    invoiceNo = models.CharField(primary_key=True, max_length=6)
-    invoiceDate = models.CharField(blank=True, max_length=25, null=True)
-    customerID = models.CharField(max_length=5, blank=True, null=True)
-    nameCountry = models.ForeignKey(Country, models.DO_NOTHING, db_column='nameCountry')
+    invoiceno = models.CharField(primary_key=True, max_length=7)
+    invoicedate = models.CharField(max_length=25, blank=True, null=True)
+    customerid = models.DecimalField(max_digits=8, decimal_places=1, blank=True, null=True)
+    country = models.ForeignKey(Country, models.DO_NOTHING, db_column='country')
 
-    class Meta:
-        
-        db_table = 'Invoice'
 
 class Product(models.Model):
-    stockCode = models.CharField(primary_key=True, max_length=50)
+    stockcode = models.CharField(primary_key=True, max_length=50)
     description = models.CharField(max_length=80, blank=True, null=True)
 
-    class Meta:
-        
-        db_table = 'Product'
+
+class Datatransfert(models.Model):
+    invoiceno = models.CharField(max_length=7, blank=False, null=False)
+    stockcode = models.CharField(max_length=50, blank=False, null=False)
+    description = models.CharField(max_length=80, blank=True, null=True)
+    quantity = models.IntegerField(blank=False, null=False)
+    invoicedate = models.CharField(max_length=25, blank=False, null=False)
+    unitprice = models.DecimalField(max_digits=8, decimal_places=2, blank=False, null=False)
+    customerid = models.DecimalField(max_digits=8, decimal_places=1, blank=True, null=True)
+    country = models.CharField(max_length=50, blank=False, null=False)
