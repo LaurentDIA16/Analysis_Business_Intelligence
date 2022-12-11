@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         #Création variable stockage data
-        dataset_dir = 'static/upload'
+        dataset_dir = 'dashboard/static/upload'
 
         #Création du chemin du fichier CSV
         csv_file = os.getcwd()+'/'+dataset_dir+'/'+"data.csv"
