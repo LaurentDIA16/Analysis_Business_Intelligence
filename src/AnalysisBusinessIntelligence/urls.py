@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from dashboard.views import home, import_csv
+from dashboard.views import home, import_csv, sell_by_country
 from accounts.views import login_user, logout_user
 
 urlpatterns = [
@@ -23,7 +23,8 @@ urlpatterns = [
     path("", home, name="home"),
     path("import/", import_csv, name="import"), 
     path("login/", login_user, name="login"),
-    path("logout/", logout_user, name="logout"),   
+    path("logout/", logout_user, name="logout"),
+    path("graphique-region/", sell_by_country, name="graphique-region"),   
 ]
 
 

@@ -1,0 +1,145 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphique vente par région</title>
+</head>
+
+{% block content %}
+<body>
+
+    <!-- {{ data }} -->
+
+    <!-- {% for i in data %}
+        <div>{{i.country}} - {{i.count}}</div>
+    {% endfor %} -->
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-md-6">
+                <div class="bg-white">
+                    <canvas id="myChart1" width="400" height="300"></canvas>
+
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    
+                    <script>
+
+                        const ctx1 = document.getElementById('myChart1').getContext('2d');
+                    
+                        var myChart1 = new Chart(ctx1, {
+                            type: 'pie',
+                            data: {
+                                labels: [{% for i in data %} '{{i.country}}', {% endfor %}],
+                                datasets: [{
+                                    label: 'Ventes par région',
+                                    data: [{% for i in data %} '{{i.count}}', {% endfor %}],
+                                    backgroundColor: [
+                                        'rgba(255,99,132,1)',
+                                        'rgba(54,162,132,1)',
+                                        'rgba(255,206,132,1)',
+                                        'rgba(78,99,23,1)',
+                                        'rgba(34,40,132,1)',
+                                        'rgba(78,99,132,56)',
+                                        'rgba(123,34,50,1)',
+                                        'rgba(235,23,240,1)',
+                                        'rgba(176,123,132,78)',
+                                        'rgba(10,99,234,1)',
+                                    ],
+                                        borderColor: [
+                                            'rgba(255,99,132,1)',
+                                            'rgba(54,162,132,1)',
+                                            'rgba(255,206,132,1)',
+                                            'rgba(78,99,23,1)',
+                                            'rgba(34,40,132,1)',
+                                            'rgba(78,99,132,56)',
+                                            'rgba(123,34,50,1)',
+                                            'rgba(235,23,240,1)',
+                                            'rgba(176,123,132,78)',
+                                            'rgba(10,99,234,1)',
+                                        ],
+                                            borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+
+            <!-- Graphique en bar start -->
+            <div class="col-md-6">
+                <div class="bg-white">
+                    <canvas id="myChart" width="500" height="300"></canvas>
+
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    
+                    <script>
+
+                        const ctx = document.getElementById('myChart').getContext('2d');
+                    
+                        var myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: [{% for i in data %} '{{i.country}}', {% endfor %}],
+                                datasets: [{
+                                    label: 'Ventes par région',
+                                    data: [{% for i in data %} '{{i.count}}', {% endfor %}],
+                                    backgroundColor: [
+                                        'rgba(255,99,132,1)',
+                                        'rgba(54,162,132,1)',
+                                        'rgba(255,206,132,1)',
+                                        'rgba(78,99,23,1)',
+                                        'rgba(34,40,132,1)',
+                                        'rgba(78,99,132,56)',
+                                        'rgba(123,34,50,1)',
+                                        'rgba(235,23,240,1)',
+                                        'rgba(176,123,132,78)',
+                                        'rgba(10,99,234,1)',
+                                    ],
+                                        borderColor: [
+                                            'rgba(255,99,132,1)',
+                                            'rgba(54,162,132,1)',
+                                            'rgba(255,206,132,1)',
+                                            'rgba(78,99,23,1)',
+                                            'rgba(34,40,132,1)',
+                                            'rgba(78,99,132,56)',
+                                            'rgba(123,34,50,1)',
+                                            'rgba(235,23,240,1)',
+                                            'rgba(176,123,132,78)',
+                                            'rgba(10,99,234,1)',
+                                        ],
+                                            borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+            <!-- Graphique en bar end -->
+
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+</html>

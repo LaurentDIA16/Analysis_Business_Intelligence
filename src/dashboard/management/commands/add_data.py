@@ -122,5 +122,14 @@ class Command(BaseCommand):
         #Executer la requête pour envoi dans la BDD Postgre
         engine.execute(sql)
 
+        #Supprimer le fichier CSV importé
+        for folder, subfolders, files in os.walk('dashboard/static/upload'): 
+            for file in files: 
+                # Vérifier si le fichir fini en .csv 
+                if file.endswith('.csv'): 
+                    path = os.path.join(folder, file)      
+                    print('deleted : ', path )
+                    # supprimer le csv 
+                    os.remove(path)
 
-            # UPDATE dashboard_detailinvoice SET totalcost=unitprice*quantity;
+        # UPDATE dashboard_detailinvoice SET totalcost=unitprice*quantity;
