@@ -12,7 +12,7 @@ class DetailInvoice(models.Model):
     unitprice = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     quantity = models.DecimalField(max_digits=8, decimal_places=0, blank=False, null=False)
     totalcost = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True, default="0")
-    detailInvoice_id = models.AutoField(primary_key=True)
+    detailinvoice_id = models.AutoField(primary_key=True)
         
     class Meta:
         unique_together = ("invoiceno", "stockcode")
