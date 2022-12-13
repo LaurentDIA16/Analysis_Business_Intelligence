@@ -15,16 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from dashboard.views import home, import_csv, sell_by_country
+from dashboard.views import home, import_csv, cleanData, sellByCountryTop, sellByCountryFlop, sellByProductTop
 from accounts.views import login_user, logout_user
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", home, name="home"),
-    path("import/", import_csv, name="import"), 
-    path("login/", login_user, name="login"),
-    path("logout/", logout_user, name="logout"),
-    path("graphique-region/", sell_by_country, name="graphique-region"),   
+    path("import/", import_csv, name="import"),
+    path("import/nettoyer/", cleanData, name="nettoyer"), 
+    path("connexion/", login_user, name="login"),
+    path("déconnexion/", logout_user, name="logout"),
+    path("graphique-region/", sellByCountryTop, name="graphique-region"),
+    path("graphique-region/Flop", sellByCountryFlop, name="graphique-region-flop"),
+    path("graphique-produit/", sellByProductTop, name="graphique-produit"),
+    path("graphique-produit/Flop", sellByProductTop, name="graphique-produit"),   
 ]
 
 

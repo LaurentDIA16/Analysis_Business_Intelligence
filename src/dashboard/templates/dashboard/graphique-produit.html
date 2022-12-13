@@ -6,22 +6,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graphique vente par région</title>
+    <title>Graphique vente par produit</title>
 </head>
 
 {% block content %}
 <body>
 
-    <!-- {{ data }} -->
-
-    <!-- {% for i in data %}
-        <div>{{i.country}} - {{i.count}}</div>
-    {% endfor %} -->
     <div class="container">
         <div class="row my-5">
             <div class="col-md-6">
                 <div class="bg-white">
-                    <canvas id="myChart1" width="400" height="300"></canvas>
+                    <canvas id="myChart1" width="100" height="100"></canvas>
 
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                     
@@ -32,7 +27,7 @@
                         var myChart1 = new Chart(ctx1, {
                             type: 'polarArea',
                             data: {
-                                labels: [{% for i in data %} '{{i.country}}', {% endfor %}],
+                                labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
                                 datasets: [{
                                     label: 'Ventes par région',
                                     data: [{% for i in data %} '{{i.count}}', {% endfor %}],
@@ -84,7 +79,7 @@
             <!-- Graphique en bar start -->
             <div class="col-md-6">
                 <div class="bg-white">
-                    <canvas id="myChart" width="500" height="300"></canvas>
+                    <canvas id="myChart" width="100" height="100"></canvas>
 
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                     
@@ -95,7 +90,7 @@
                         var myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: [{% for i in data %} '{{i.country}}', {% endfor %}],
+                                labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
                                 datasets: [{
                                     label: 'Ventes par région',
                                     data: [{% for i in data %} '{{i.count}}', {% endfor %}],
