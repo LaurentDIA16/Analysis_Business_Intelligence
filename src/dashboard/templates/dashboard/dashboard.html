@@ -94,64 +94,22 @@
                     </div>
                 </div>
 
-                <!-- Sélectionner et importer un fichier CSV puis feedback starts -->
-                <div class="container-import">
-                    
-                    <!-- <div class="header-actions">
 
-                        <!-- <div class="mb-5">
-                            <label for="formFile" class="form-label">Importer un csv</label>
-                            <input class="post-control" type="file" id="formFile" enctype="multipart/form-data">
-                            <button type="submit" class="save btn btn-default">Importer</button>
-                        </div> -->
 
-                        <!-- <button>
-                            <span class="las la-file-import"></span>
-                            Importer
-                        </button>
-                        <button>
-                            <span class="las la-tools"></span>
-                            Nettoyer
-                        </button> -->
-                    <!-- </div> -->
-
-                    <!-- Card import csv et feedback starts -->
-                    <div class="card border-dark mb-3" style="max-width: 60rem;">
-                        <div class="card-header">
-                            <div class="header-actions">
-                                <div class="header-actions-form">
-                                    <!-- Sélectionner et importer un fichier CSV starts -->
-                                    <form method="POST" class="post-form" enctype="multipart/form-data">  
-                                        {% csrf_token %}  
-                                        {{ form }}  
-                                        <button type="submit" class="save btn btn-default">Importer</button>  
-                                    </form>
-                                </div>
-                                <!-- Sélectionner et importer un fichier CSV ends -->
-
-                                <!-- Nettoyer les données starts -->
-                                <div class="header-actions-button">
-                                    <button>
-                                        <span class="las la-tools"></span>
-                                        Nettoyer
-                                    </button>
-                                </div>
-                                <!-- Nettoyer les données ends -->
-                            </div>  
+                <!-- Boutons accès graphique starts -->
+                <div class="container-button-graphique">
+                    <div class="row">
+                        <div class="graphic-actions-button">
+                            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
+                            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
                         </div>
-
-                        <!-- Feedback starts -->    
-                        <div class="card-body text-dark">
-                          <h7 class="card-title">Feedback:</h7>
-                          <p class="card-text">Ici cela sera le feedback de l'import CSV</p>
-                        </div>
-                        <!-- Feedback ends --> 
-
                     </div>
-                    <!-- Card import csv et feedback ends -->
-
                 </div>
-                <!-- Sélectionner et importer un fichier CSV puis feedback ends -->
+                <!-- Boutons accès graphique ends -->
+
+
+
+
                 <!-- KPI starts -->
                 <div class="cards">
                     <div class="card-single">
