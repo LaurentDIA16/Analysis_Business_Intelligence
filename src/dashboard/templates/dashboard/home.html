@@ -1,15 +1,111 @@
-{% extends 'base.html' %}
+{% extends 'dashboard/base.html' %}
+{% load static %}
 
-    {%  block content %}
-    {% if user.is_authenticated %}
-    {% include "dashboard/dashboard.html" %}
+{%  block content %}
+{% if user.is_authenticated %}
+<body>
+    <!-- Dashboard starts -->
+    <main>
+        <div class="page-header">
+            <div>
+                <h1>Dashboard</h1>
+                <h5>Bienvenue sur votre dashboard. Importer vos CSV, 
+                nettoyer les données et analyser vos graphiques</h5> 
+            </div>
+        </div>
 
+        {% if invoices == 0 %}
+        <h5 style="color: red ;">Aucune données n'a été enregistrés dans la base de donnée <br>
+        Veuillez importer un premier fichier csv!</h5>
+
+        {% else %}
+        <!-- KPI starts -->
+        <div class="cards">
+            <div class="card-single bg-primary">
+                <div class="card-flex">
+                    <div class="card-info">
+                        <div class="card-head">
+                            <span>Factures</span>
+                            <small>Nombre de facturations clients</small>
+                        </div>
+                        <h2>{{ invoices }}</h2>
+                    </div>
+                    <div class="card-chart">
+                        <span class="las la-file-invoice"></span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="card-single bg-secondary">
+                <div class="card-flex">
+                    <div class="card-info">
+                        <div class="card-head">
+                            <span>Produits</span>
+                            <small>Nombre de produits référencés vendus</small>
+                        </div>
+                        <h2>{{ products }}</h2>
+                    </div>
+                    <div class="card-chart">
+                        <span class="las la-barcode"></span>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="card-single bg-warning">
+                <div class="card-flex">
+                    <div class="card-info">
+                        <div class="card-head">
+                            <span>Livraisons</span>
+                            <small>Nombre de pays <br> livrés</small>
+                        </div>
+                        <h2>{{ countries }}</h2>
+                    </div>
+                    <div class="card-chart">
+                        <span class="las la-plane"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-single bg-success">
+                <div class="card-flex">
+                    <div class="card-info">
+                        <div class="card-head">
+                            <span>Chiffres d'affaires</span>
+                            <small>Somme des ventes de produits</small>
+                        </div>
+                        <h2>{{ earnings }} $</h2>
+                    </div>
+                    <div class="card-chart">
+                        <span class="las la-cash-register"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- KPI ends -->
+
+        <!-- Boutons accès graphique starts -->
+        <div class="container-button-graphique">
+            <div class="row">
+                <div class="graphic-actions-button">
+                    <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
+                    <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
+                    <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région et par produit</a>
+                </div>
+            </div>
+        </div>
+        <!-- Boutons accès graphique ends -->
+        {% endif %}
+    </main>
+    <!-- Dashboard ends -->
+
+    <label for="sidebar-toggle" class="body-label"></label>
+</body>
     
-    {% else %}
+{% else %}
 
-        <h1>Bonjour, veuillez vous connecter pour avoir accès à votre dashboard</h1>
-        <a class="btn btn-success" aria-current="page" href="{%  url 'login' %}">Connexion</a>
+    <h1>Bonjour, veuillez vous connecter pour avoir accès à votre dashboard</h1>
+    <a class="btn btn-success" aria-current="page" href="{%  url 'login' %}">Connexion</a>
 
-    {% endif %}
-    
-    {% endblock %}
+{% endif %}
+
+{% endblock %}

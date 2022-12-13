@@ -1,38 +1,39 @@
 {% extends "dashboard/base.html" %}
 {% load static %}
 
+
 {% block content %}
 
-<h1>Répartition des ventes par région</h1>
+<h1>Répartition des ventes par région et par produit</h1>
 
 <!-- Boutons accès graphique starts -->
-<div class="container-button-graphique">
+<div class="container border-dark">
     <div class="row">
-        <div class="graphic-actions-button">
-            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region' %}">TOP 10</a>
-            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-flop' %}">FLOP 10</a>
+        <div class="col">
+            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-produit' %}">TOP 10</a>
+            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-produit' %}">FLOP 10</a>
         </div>
-    </div>
-</div>
-<!-- Boutons accès graphique ends -->
-
-<!-- Boutons accès graphique starts -->
-<div class="container-button-graphique">
-    <div class="row">
-        <div class="graphic-actions-button">
+        <div class="col">
+        </div>
+        <div class="col">
+            <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
             <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
-            <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région et par produit</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="graphic-actions-button">
+            
         </div>
     </div>
 </div>
 <!-- Boutons accès graphique ends -->
-
 
 <div class="container">
     <div class="row my-5">
         <div class="col-md-6">
             <div class="bg-white">
-                <canvas id="myChart1" width="100" height="100"></canvas>
+                <canvas id="myChart1" width="50" height="50"></canvas>
 
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 
@@ -43,9 +44,9 @@
                     var myChart1 = new Chart(ctx1, {
                         type: 'polarArea',
                         data: {
-                            labels: [{% for i in data %} '{{i.country}}', {% endfor %}],
+                            labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
                             datasets: [{
-                                label: 'Ventes par région',
+                                label: 'Ventes par produit',
                                 data: [{% for i in data %} '{{i.count}}', {% endfor %}],
                                 backgroundColor: [
                                     'rgba(255,99,132,1)',
@@ -95,7 +96,7 @@
         <!-- Graphique en bar start -->
         <div class="col-md-6">
             <div class="bg-white">
-                <canvas id="myChart" width="100" height="100"></canvas>
+                <canvas id="myChart" width="50" height="50"></canvas>
 
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 
@@ -106,9 +107,9 @@
                     var myChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: [{% for i in data %} '{{i.country}}', {% endfor %}],
+                            labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
                             datasets: [{
-                                label: 'Ventes par région',
+                                label: 'Ventes par produit',
                                 data: [{% for i in data %} '{{i.count}}', {% endfor %}],
                                 backgroundColor: [
                                     'rgba(255,99,132,1)',
@@ -155,6 +156,7 @@
             </div>
         </div>
         <!-- Graphique en bar end -->
+
     </div>
 </div>
 {% endblock %}

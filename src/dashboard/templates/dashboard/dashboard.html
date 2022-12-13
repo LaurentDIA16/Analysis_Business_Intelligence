@@ -1,4 +1,5 @@
-{% load static %}
+{% extends 'dashboard/base.html' %}
+<!-- {% load static %} -->
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -12,78 +13,7 @@
 
 {%  block content %}
 <body>
-
-        <input type="checkbox" name="" id="sidebar-toggle">
-
-        <!-- sidebar start -->
-        <div class="sidebar">
-            <div class="sidebar-brand">
-                <div class="brand-flex">
-                        <img src="{% static 'images/logo.png' %}" width="86" height="86" alt="logo">
-                </div>
-            </div>
-
-            <div class="sidebar-main">
-                <div class="sidebar-user">
-                    <img src="{% static 'images/robotia.png' %}" width="250" height="250" alt="photo">
-                    <div>
-                        <h3>{{ user.username }}</h3>
-                    </div>
-                </div>
-
-                <div class="sidebar-menu">
-                    <div class="menu-block">
-                        <div class="menu-head">
-                            <span>Dashboard</span>
-                        </div>
-                        <ul>
-                            <li>
-                                <a href="{%  url 'import' %}">
-                                    <span class="las la-file-import"></span>
-                                    Import
-                                </a>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <span class="las la-chart-pie"></span>
-                                    Analyses
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="sidebar-footer">
-                
-                <!-- Copyright -->
-                    <div>
-                        <h3> Copyright © 2022 Analysis Business Intelligence</h3>
-                    </div>
-                <!-- Copyright -->
-
-            </div>
-        </div>
-        <!-- sidebar end -->
-
-        <!-- main-content start -->
-        <div class="main-content">
-            <header>
-                <div class="menu-toggle">
-                    <label for="sidebar-toggle">
-                        <span class="las la-bars"></span>
-                    </label>
-                </div>
-
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="btn btn-danger" aria-current="page" href="{%  url 'logout' %}">Déconnexion</a>
-                </li>
-                {% else %}
-                
-                {% endif %}
-
-            </header>
-
+    
             <!-- Dashboard starts -->
             <main>
                 <div class="page-header">
@@ -102,6 +32,7 @@
                         <div class="graphic-actions-button">
                             <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
                             <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
+                            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région et par produit</a>
                         </div>
                     </div>
                 </div>
@@ -181,7 +112,11 @@
         <!-- main-content endif -->
         <label for="sidebar-toggle" class="body-label"></label>
     
-    
+    <!-- Copyright -->
+    <div>
+        <h3> Copyright © 2022 Analysis Business Intelligence</h3>
+    </div>
+    <!-- Copyright -->
 </body>
 {% endblock %}
 </html>
