@@ -8,7 +8,9 @@ import os
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
-
+from django.db.models import Sum, FloatField
+from django.db.models.functions import Cast
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -16,11 +18,14 @@ def home(request):
     invoices = Invoice.objects.all().count()
     products = Product.objects.all().count()
     countries = Country.objects.all().count()
-
-    # earningsfloat = DetailInvoice.objects.annotate(as_float=Cast('totalcost', FloatField())).aggregate(Sum('as_float'))
-    # earnings = int(earningsfloat['as_float__sum'])
-
-    context = {'invoices':invoices,'products':products,'countries':countries,}
+    earningsfloat = DetailInvoice.objects.annotate(as_float=Cast('totalcost', FloatField())).aggregate(Sum('as_float'))
+    try:
+        # earningsfloat.int(earningsfloat['as_float__sum'])
+        earningsfloat = int(earningsfloat['as_float__sum'])
+    except:
+        pass
+    
+    context = {'invoices':invoices,'products':products,'countries':countries, 'earningsfloat':earningsfloat}
 
     return render(request,"dashboard/home.html", context)
 
@@ -28,12 +33,87 @@ def import_csv(request):
     if request.method == 'POST':  
         csvFile = InputFileForm(request.POST, request.FILES)  
         if csvFile.is_valid():  
-            handle_uploaded_file(request.FILES['file'])  
-            return redirect('import')
+            handle_uploaded_file(request.FILES['file'])
+            analyseData(request)
+            messages.success(request, 'CSV importé avec succès!')
+            return redirect('analyser')
     
     else:  
         csvFile = InputFileForm()  
         return render(request,"dashboard/import.html",{'form':csvFile})
+
+def analyseData(request):
+        
+        #Création variable stockage data
+        dataset_dir = 'dashboard/static/upload'
+
+        #Création du chemin du fichier CSV
+        csv_file = os.getcwd()+'/'+dataset_dir+'/'+"data.csv"
+
+        #Création du dataframe depuis le fichier CSV
+        df = pd.read_csv(csv_file, encoding= 'unicode_escape')
+
+        #Mettre en minuscule les noms de colonnes
+        df.columns = [x.lower() for x in df.columns]
+
+        # Comptabiliser les données à supprimer #########################
+        nbOriginalData = df.index.size
+        nbOriginalData = int(nbOriginalData)
+
+        nbDuplicated = df.duplicated().sum()
+        nbDuplicated = int(nbDuplicated)
+
+        nbDuplicatedCol = df.duplicated(['invoiceno','stockcode']).sum()
+        nbDuplicatedCol = int(nbDuplicatedCol)
+
+        indexQuantity = df[df['quantity']<0].index.size
+        nbQuantity0 = int(indexQuantity)
+
+        indexUnitPrice = df[df['unitprice']<=0].index.size
+        nbUnitPrice0 = int(indexUnitPrice)
+
+        indexStockCode = df[df["stockcode"].str.match("^[A-Za-z]")==True].index.size
+        nbStartChar = int(indexStockCode)
+
+        dataToDelete = nbDuplicated + nbQuantity0 + nbUnitPrice0 + nbStartChar
+        
+        # Comptabiliser les données à réparer #############################
+        #Mettre en minuscule le nom des pays
+        lowerCase = df['country'].size
+        lowerCase = int(lowerCase)
+
+        #Tous les champs vide dans la DF (colonne CustomerID, colonne Description)
+        nbNull = df.isnull().sum().sum()
+        nbNull = int(nbNull)
+
+        dataToRepair = lowerCase + nbNull
+
+        dataOrigin = f"Nombre de lignes de facturations: {nbOriginalData}"
+        dataToDelete = f"Nombre de lignes à supprimer: {dataToDelete}"
+        dataToRepair = f"Nombre de champs réparable: {dataToRepair}"
+
+        #Après nettoyage######################
+        #Total données restantes
+        dataFinal = nbOriginalData - (nbDuplicated + nbQuantity0 + nbUnitPrice0 + nbStartChar)
+
+        #Pourcentage de donnée à supprimer
+        percDataDelete = ((nbDuplicated + nbQuantity0 + nbUnitPrice0 + nbStartChar)/nbOriginalData)*100
+        print(percDataDelete)
+        percDataDeleteFloat = round(percDataDelete,2)
+        print(type(percDataDelete))
+
+        dataFinal = f"Nombre de lignes de facturations: {dataFinal}"
+        percDataDelete = f"Pourcentage de suppression: {percDataDelete} %"
+        print(type(percDataDelete))
+
+        context = {'dataOrigin':dataOrigin, 
+                   'dataToDelete':dataToDelete, 
+                   'dataToRepair':dataToRepair,
+                   'dataFinal':dataFinal,
+                   'percDataDelete':percDataDelete,
+                   'percDataDeleteFloat':percDataDeleteFloat}
+
+        return render(request, 'dashboard/import-analyser.html', context )
 
 def cleanData(self, *args, **options):
 
@@ -54,7 +134,6 @@ def cleanData(self, *args, **options):
 
         #Ajouter une colonne totalcost pour calculer le prix * quantité
         df['totalcost'] = df.unitprice * df.quantity
-        # print(df.head())
         
         #Supprimer les lignes doublons
         nbDuplicated = df.duplicated().sum()
@@ -62,7 +141,6 @@ def cleanData(self, *args, **options):
         print("Nb de lignes de données doublons: " + str(nbDuplicated))
 
         #Supprimer les doublons invoice/stockcode
-        # print(df.duplicated(['invoiceno','stockcode']).sum())
         nbDuplicatedCol = df.duplicated(['invoiceno','stockcode']).sum()
         df = df.drop_duplicates(['invoiceno','stockcode'])
         print("Nb de lignes de données doublons invoice/stockcode: " + str(nbDuplicatedCol))
@@ -161,13 +239,26 @@ def cleanData(self, *args, **options):
     except FileNotFoundError as e:
         print("Veuillez importer un fichier CSV d'abord")
     
+    messages.success(self, 'CSV nettoyé et enregistré dans la base de donnée!')
     return redirect("import")
+
+def deleteData():
+
+    detailInvoices = DetailInvoice.objects.all().delete()
+    invoices = Invoice.objects.all().delete()
+    products = Product.objects.all().delete()
+    countries = Country.objects.all().delete()
+
+    # context = {'invoices':invoices, 'detailInvoices':detailInvoices, 'products':products, 'countries':countries}
+
+    return redirect('home')
 
 def sellByCountryTop(request):
 
     sql = '''SELECT dashboard_invoice.country, count(*) 
                 FROM dashboard_detailinvoice 
                 INNER JOIN dashboard_invoice ON dashboard_detailinvoice.invoiceno = dashboard_invoice.invoiceno 
+                WHERE dashboard_invoice.country <> 'United Kingdom'
                 GROUP BY dashboard_invoice.country
                 ORDER BY count DESC 
                 LIMIT 10'''
@@ -228,17 +319,7 @@ def sellByCountryProduct(request):
 
     return render(request, "dashboard/graphique-region-produit.html", {'data': res})
 
-def deleteData(request):
 
-    detailInvoices = DetailInvoice.objects.all().delete()
-    invoices = Invoice.objects.all().delete()
-    products = Product.objects.all().delete()
-    countries = Country.objects.all().delete()
-
-    context = {'invoices':invoices, 'detailInvoices':detailInvoices, 'products':products, 'countries':countries}
-
-    return redirect('home')
-    # return render(request,"dashboard/home.html", context)
 
 
 # Fonction à utiliser avec la méthode ci-dessous

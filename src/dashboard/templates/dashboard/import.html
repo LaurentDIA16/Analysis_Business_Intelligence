@@ -1,4 +1,5 @@
 {% extends 'dashboard/base.html' %}
+{% load static %}
 
 {% block content %}
 
@@ -16,25 +17,9 @@
                         {{ form }}  
                         <button type="submit" class="save btn btn-default">Importer</button>  
                     </form>
-                </div>
-                <!-- Sélectionner et importer un fichier CSV ends -->
-
-                <!-- Nettoyer les données starts -->
-                <div class="header-actions-button">
-                    <a class="btn btn-danger" aria-current="page" href="{%  url 'nettoyer' %}" style="--bs-btn-padding-y: 0.36rem; --bs-btn-padding-x: 1rem; --bs-btn-font-size: 1.1rem;">Nettoyer</a>
-                </div>
-                <!-- Nettoyer les données ends -->
-                
+                </div>   
             </div>  
         </div>
-
-        <!-- Feedback starts -->    
-        <div class="card-body text-dark">
-            <h7 class="card-title">Feedback:</h7>
-            <p class="card-text">Ici cela sera le feedback de l'import CSV</p>
-        </div>
-        <!-- Feedback ends --> 
-
     </div>
     <!-- Card import csv et feedback ends -->
 
