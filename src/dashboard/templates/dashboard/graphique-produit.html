@@ -3,62 +3,46 @@
 
 {% block content %}
 
-<h1>Répartition des ventes par produit</h1>
+    <h1>Répartition des ventes par produit</h1>
 
-<!-- Boutons accès graphique starts -->
-<div class="container-button-graphique">
-    <div class="row">
-        <div class="graphic-actions-button">
-            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-produit' %}">TOP 10</a>
-            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-produit-flop' %}">FLOP 10</a>
+    <!-- Boutons accès graphique starts -->
+    <div class="container border-dark">
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-produit' %}">TOP 10</a>
+                <a class="btn btn-danger" aria-current="page" href="{%  url 'graphique-produit-flop' %}">FLOP 10</a>
+            </div>
+            <div class="col">
+            </div>
+            <div class="col">
+                <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
+                <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région / produit</a>
+            </div>
         </div>
     </div>
-</div>
-<!-- Boutons accès graphique ends -->
+    <!-- Boutons accès graphique ends -->
 
-<!-- Boutons accès graphique starts -->
-<div class="container-button-graphique">
-    <div class="row">
-        <div class="graphic-actions-button">
-            <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
-            <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région et par produit</a>
-        </div>
-    </div>
-</div>
-<!-- Boutons accès graphique ends -->
 
-<div class="container">
-    <div class="row my-5">
-        <div class="col-md-6">
-            <div class="bg-white">
-                <canvas id="myChart1" width="100" height="100"></canvas>
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-md-6">
+                <div class="bg-white">
+                    <canvas id="myChart1" width="100" height="100"></canvas>
 
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                
-                <script>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    
+                    <script>
 
-                    const ctx1 = document.getElementById('myChart1').getContext('2d');
-                
-                    var myChart1 = new Chart(ctx1, {
-                        type: 'polarArea',
-                        data: {
-                            labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
-                            datasets: [{
-                                label: 'Ventes par région',
-                                data: [{% for i in data %} '{{i.count}}', {% endfor %}],
-                                backgroundColor: [
-                                    'rgba(255,99,132,1)',
-                                    'rgba(54,162,132,1)',
-                                    'rgba(255,206,132,1)',
-                                    'rgba(78,99,23,1)',
-                                    'rgba(34,40,132,1)',
-                                    'rgba(78,99,132,56)',
-                                    'rgba(123,34,50,1)',
-                                    'rgba(235,23,240,1)',
-                                    'rgba(176,123,132,78)',
-                                    'rgba(10,99,234,1)',
-                                ],
-                                    borderColor: [
+                        const ctx1 = document.getElementById('myChart1').getContext('2d');
+                    
+                        var myChart1 = new Chart(ctx1, {
+                            type: 'polarArea',
+                            data: {
+                                labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
+                                datasets: [{
+                                    label: 'Ventes par région',
+                                    data: [{% for i in data %} '{{i.count}}', {% endfor %}],
+                                    backgroundColor: [
                                         'rgba(255,99,132,1)',
                                         'rgba(54,162,132,1)',
                                         'rgba(255,206,132,1)',
@@ -70,58 +54,58 @@
                                         'rgba(176,123,132,78)',
                                         'rgba(10,99,234,1)',
                                     ],
-                                        borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                r: {
-                                    pointLabels: {
-                                        display: true,
-                                        centerPointLabels: true,
-                                        font: {
-                                            size: 12
+                                        borderColor: [
+                                            'rgba(255,99,132,1)',
+                                            'rgba(54,162,132,1)',
+                                            'rgba(255,206,132,1)',
+                                            'rgba(78,99,23,1)',
+                                            'rgba(34,40,132,1)',
+                                            'rgba(78,99,132,56)',
+                                            'rgba(123,34,50,1)',
+                                            'rgba(235,23,240,1)',
+                                            'rgba(176,123,132,78)',
+                                            'rgba(10,99,234,1)',
+                                        ],
+                                            borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    r: {
+                                        pointLabels: {
+                                            display: true,
+                                            centerPointLabels: true,
+                                            font: {
+                                                size: 12
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    });
-                </script>
+                        });
+                    </script>
+                </div>
             </div>
-        </div>
 
-        <!-- Graphique en bar start -->
-        <div class="col-md-6">
-            <div class="bg-white">
-                <canvas id="myChart" width="100" height="100"></canvas>
+            <!-- Graphique en bar start -->
+            <div class="col-md-6">
+                <div class="bg-white">
+                    <canvas id="myChart" width="100" height="100"></canvas>
 
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                
-                <script>
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                    
+                    <script>
 
-                    const ctx = document.getElementById('myChart').getContext('2d');
-                
-                    var myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
-                            datasets: [{
-                                label: 'Ventes par produit',
-                                data: [{% for i in data %} '{{i.count}}', {% endfor %}],
-                                backgroundColor: [
-                                    'rgba(255,99,132,1)',
-                                    'rgba(54,162,132,1)',
-                                    'rgba(255,206,132,1)',
-                                    'rgba(78,99,23,1)',
-                                    'rgba(34,40,132,1)',
-                                    'rgba(78,99,132,56)',
-                                    'rgba(123,34,50,1)',
-                                    'rgba(235,23,240,1)',
-                                    'rgba(176,123,132,78)',
-                                    'rgba(10,99,234,1)',
-                                ],
-                                    borderColor: [
+                        const ctx = document.getElementById('myChart').getContext('2d');
+                    
+                        var myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
+                                datasets: [{
+                                    label: 'Ventes par produit',
+                                    data: [{% for i in data %} '{{i.count}}', {% endfor %}],
+                                    backgroundColor: [
                                         'rgba(255,99,132,1)',
                                         'rgba(54,162,132,1)',
                                         'rgba(255,206,132,1)',
@@ -133,28 +117,39 @@
                                         'rgba(176,123,132,78)',
                                         'rgba(10,99,234,1)',
                                     ],
-                                        borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                r: {
-                                    pointLabels: {
-                                        display: true,
-                                        centerPointLabels: true,
-                                        font: {
-                                            size: 12
+                                        borderColor: [
+                                            'rgba(255,99,132,1)',
+                                            'rgba(54,162,132,1)',
+                                            'rgba(255,206,132,1)',
+                                            'rgba(78,99,23,1)',
+                                            'rgba(34,40,132,1)',
+                                            'rgba(78,99,132,56)',
+                                            'rgba(123,34,50,1)',
+                                            'rgba(235,23,240,1)',
+                                            'rgba(176,123,132,78)',
+                                            'rgba(10,99,234,1)',
+                                        ],
+                                            borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    r: {
+                                        pointLabels: {
+                                            display: true,
+                                            centerPointLabels: true,
+                                            font: {
+                                                size: 12
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    });
-                </script>
+                        });
+                    </script>
+                </div>
             </div>
+            <!-- Graphique en bar end -->
         </div>
-        <!-- Graphique en bar end -->
-
     </div>
-</div>
 {% endblock %}

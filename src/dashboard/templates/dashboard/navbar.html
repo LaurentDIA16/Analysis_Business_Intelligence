@@ -16,20 +16,35 @@
                     Dashboard
                     </a>
                 </li>
+
+                {% if invoices == 0 %}
+                <!-- Le menu déroulant graphique ne vas pas apparaître si pas de données -->
+                {% else %}
+                <li class="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Graphique
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{%  url 'graphique-region' %}">Ventes par région</a></li>
+                        <li><a class="dropdown-item" href="{%  url 'graphique-produit' %}">Ventes par produit</a></li>
+                        <li><a class="dropdown-item" href="{% url 'graphique-region-produit' %}">Ventes par région et par produit</a></li>
+                    </ul>
+                </li>
+                {% endif %}
             </ul>
 
             {% if user.is_authenticated %}
             <ul class="navbar-nav me-end mb-lg-0">
-                <li class="dropstart me-1">
+                <li class="dropstart me-3">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {{ user.username }}
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{%  url 'import' %}">Importer CSV</a></li>
                         <li><a class="dropdown-item" href="#">Ajouter un utilisateur</a></li>
-                        <li><a class="dropdown-item" href="{% url 'supprimer-données' %}">Supprimer les données</a></li>
+                        <li><a class="dropdown-item bg-warning" href="{% url 'supprimer-données' %}">Supprimer les données</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{%  url 'logout' %}">Déconnexion</a></li>
+                        <li><a class="dropdown-item bg-danger" href="{%  url 'logout' %}">Déconnexion</a></li>
                     </ul>
                 </li>
                 <li> 

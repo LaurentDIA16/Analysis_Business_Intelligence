@@ -6,28 +6,23 @@
 <h1>Répartition des ventes par région</h1>
 
 <!-- Boutons accès graphique starts -->
-<div class="container-button-graphique">
+<div class="container border-dark">
     <div class="row">
-        <div class="graphic-actions-button">
+        <div class="col">
             <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region' %}">TOP 10</a>
-            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-flop' %}">FLOP 10</a>
+            <a class="btn btn-danger" aria-current="page" href="{%  url 'graphique-region-flop' %}">FLOP 10</a>
         </div>
-    </div>
-</div>
-<!-- Boutons accès graphique ends -->
-
-<!-- Boutons accès graphique starts -->
-<div class="container-button-graphique">
-    <div class="row">
-        <div class="graphic-actions-button">
+        <div class="col">
+        </div>
+        <div class="col">
             <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
-            <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région et par produit</a>
+            <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région / produit</a>
         </div>
     </div>
 </div>
 <!-- Boutons accès graphique ends -->
 
-
+<!-- Graphique starts -->
 <div class="container">
     <div class="row my-5">
         <div class="col-md-6">
