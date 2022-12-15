@@ -103,7 +103,7 @@ def analyseData(request):
         print(type(percDataDelete))
 
         dataFinal = f"Nombre de lignes de facturations: {dataFinal}"
-        percDataDelete = f"Pourcentage de suppression: {percDataDelete} %"
+        percDataDelete = f"Pourcentage de suppression: {round(percDataDelete,2)} %"
         print(type(percDataDelete))
 
         context = {'dataOrigin':dataOrigin, 

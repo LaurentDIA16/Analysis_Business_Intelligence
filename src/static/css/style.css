@@ -176,7 +176,7 @@ main {
 }
 
 .container-import {
-    width: 100%;
+    width: 50%;
     box-sizing: border-box;
     box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
 }
@@ -186,11 +186,57 @@ main {
     margin-top: 3rem;
 }
 
-.round {
-        border-radius: 24px;
-        box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+.card-title {
+    padding-top: 1rem;    
+    margin-left: 1rem;
 
-    }
+}
+
+.card-paragraph {
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    background: #747774;
+    box-shadow: 1rem 1rem 1rem rgba(117, 117, 117, 0.1);
+    width: fit-content;
+    color: #efefef;
+}
+
+.card-clean {
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    background: rgba(117, 117, 117, 0.1);
+    padding: 1rem;
+    margin: 2rem;
+}
+
+.card-text-delete {
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    background: rgba(246, 0, 0, 0.5);
+    width: fit-content;
+}
+
+.card-text-repair {
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    background: rgba(0, 255, 17, 0.5);
+    width: fit-content;
+}
+
+.card-total {
+    box-sizing: border-box;
+    border-radius: 0.5rem;
+    background: rgba(117, 117, 117, 0.1);
+    padding: 1rem;
+    margin: 2rem;
+}
+
+.round {
+    border-radius: 24px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+
 
 @media only screen and (max-width: 1390px) {
 

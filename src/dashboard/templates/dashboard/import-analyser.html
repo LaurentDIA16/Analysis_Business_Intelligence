@@ -10,28 +10,26 @@
 <div class="container-import">
 
     <!-- Card import csv et feedback starts -->
-    <div class="card border-dark mb-3">
+    <div class="card mb-3">
         <div class="card-header">
             <div class="header-actions">
-                <!-- Nettoyer les données starts -->
-                <div class="header-actions-button">
-                    <a class="btn btn-danger" aria-current="page" href="{%  url 'nettoyer' %}" style="--bs-btn-padding-y: 0.36rem; --bs-btn-padding-x: 1rem; --bs-btn-font-size: 1.1rem;">Nettoyer données</a>
-                </div>
-                <!-- Nettoyer les données ends -->
+                Analyse du fichier CSV importé
             </div>  
         </div>
 
         <!-- Feedback starts -->    
         <div class="card-body text-dark">
-            <h5 class="card-title bold-text">Feedback:</h5>
-            <p class="card-text">{{ dataOrigin }}</p>
+            <div class="card-title">
+                <h5 class="card-paragraph bold-text">Feedback</h5>
+                <p class="card-text">{{ dataOrigin }}</p>
+            </div>
             <div class="card-clean">
-                <h6 class="card-title">À nettoyer</h6>
-                <p class="card-text">{{ dataToDelete }}</p>
-                <p class="card-text">{{ dataToRepair }}</p>  
+                <h6 class="card-paragraph bold-text">À nettoyer</h6>
+                <p class="card-text-delete">{{ dataToDelete }}</p>
+                <p class="card-text-repair">{{ dataToRepair }}</p>  
             </div>
             <div class="card-total">
-                <h6 class="card-title">Après nettoyage</h6>
+                <h6 class="card-paragraph bold-text">Après nettoyage</h6>
                 <p class="card-text">{{ dataFinal }}</p>
 
                 {% if percDataDeleteFloat <= 5 %}
