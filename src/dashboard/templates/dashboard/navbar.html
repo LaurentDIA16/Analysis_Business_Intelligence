@@ -10,6 +10,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            
+            {% if user.is_authenticated %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{%  url 'home' %}">
@@ -33,7 +35,6 @@
                 {% endif %}
             </ul>
 
-            {% if user.is_authenticated %}
             <ul class="navbar-nav me-end mb-lg-0">
                 <li class="dropstart me-3">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -53,9 +54,9 @@
                     </div> 
                 </li>
             {% else %}
-                <!-- <li class="nav-item">
-                    <a class="btn btn-info" aria-current="page" href="{%  url 'login' %}">Connexion</a>
-                </li> -->
+                <li class="nav-item end">
+                    <a class="btn btn-success" aria-current="page" href="{%  url 'login' %}">Connexion</a>
+                </li>
             </ul>
             {% endif %}
         </div>

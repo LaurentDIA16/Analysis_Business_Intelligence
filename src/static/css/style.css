@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wight@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 
 :root {
     --color-main: #0748e0;
 }
 
 * {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Indie', sans-serif;
     box-sizing: border-box;
     text-decoration: none;
     list-style-type: none;
@@ -22,14 +22,14 @@ body {
     overflow-x: hidden;
 }
 
-.body-label {
+/* .body-label {
     position: fixed;
     height: 100%;
     width: calc(100% - 280px);
     z-index: 30;
     right: -100%;
     top: 0;
-}
+} */
 
 .picture-user img {
     width: 60px;
@@ -86,10 +86,10 @@ header {
     font-size: 1.4rem;
 }
 
-.main-content {
+/* .main-content {
     margin-left: 280px;
     transition: margin-left 200ms;
-}
+} */
 
 main {
     padding: 1.5rem;
@@ -136,7 +136,7 @@ main {
 .cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 3rem;
+    grid-gap: 1rem;
     margin-top: 2rem;
 }
 
@@ -247,10 +247,10 @@ main {
 }
 
 @media only screen and (max-width: 1124px) {
-    .sidebar {
+    /* .sidebar {
         left: -100%;
         z-index: 30;
-    }
+    } */
 
     .main-content {
         margin-left: 0;
@@ -261,13 +261,13 @@ main {
         width: 100%;
     }
 
-    #sidebar-toggle:checked ~ .sidebar {
+    /* #sidebar-toggle:checked ~ .sidebar {
         left: 0;
     }
 
     #sidebar-toggle:checked ~ .body-label {
         right: 0;
-    }
+    } */
 
     .cards {
         grid-template-columns: repeat(2, 1fr);
