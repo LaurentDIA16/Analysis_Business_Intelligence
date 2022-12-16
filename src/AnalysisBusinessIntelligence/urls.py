@@ -3,7 +3,7 @@ from django.urls import path
 from dashboard.views import home, import_csv, analyseData, cleanData, deleteData
 from dashboard.views import sellByCountryTop, sellByCountryTop2010, sellByCountryTop2011, sellByCountryFlop, sellByCountryFlop2010, sellByCountryFlop2011
 from dashboard.views import sellByProductTop, sellByProductTop2010, sellByProductTop2011, sellByProductFlop, sellByProductFlop2010, sellByProductFlop2011
-from dashboard.views import sellByCountryProduct 
+from dashboard.views import sellByCountryProduct, sellByMonth
 from accounts.views import login_user, logout_user
 
 urlpatterns = [
@@ -31,6 +31,7 @@ urlpatterns = [
     path("graphique-produit/flop/2010/", sellByProductFlop2010, name="graphique-produit-flop-2010"),
     path("graphique-produit/flop/2011/", sellByProductFlop2011, name="graphique-produit-flop-2011"),
     path("graphique-region-produit/", sellByCountryProduct, name="graphique-region-produit"),   
+    path("graphique-vente-mensuelle/", sellByMonth, name="graphique-vente-mensuelle"),
 ]
 
 

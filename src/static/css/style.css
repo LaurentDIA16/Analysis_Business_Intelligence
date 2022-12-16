@@ -236,6 +236,9 @@ main {
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
 }
 
+.card-header {
+   align-items: center; 
+}
 
 
 @media only screen and (max-width: 1390px) {

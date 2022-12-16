@@ -197,6 +197,9 @@ main {
 
 }
 
+.header-actions-button h5 {
+    color:#0748e0;
+}
 
 @media only screen and (max-width: 1390px) {
 

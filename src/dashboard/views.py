@@ -1,3 +1,4 @@
+from multiprocessing import connection
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from dashboard.forms import InputFileForm
@@ -11,10 +12,13 @@ from sqlalchemy import create_engine
 from django.db.models import Sum, FloatField
 from django.db.models.functions import Cast
 from django.contrib import messages
+import psycopg2
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url='/connexion/')
 def home(request):
-
+    
     invoices = Invoice.objects.all().count()
     products = Product.objects.all().count()
     countries = Country.objects.all().count()
@@ -29,6 +33,7 @@ def home(request):
 
     return render(request,"dashboard/home.html", context)
 
+@login_required(login_url='/connexion/')
 def import_csv(request):  
     if request.method == 'POST':  
         csvFile = InputFileForm(request.POST, request.FILES)  
@@ -42,6 +47,7 @@ def import_csv(request):
         csvFile = InputFileForm()  
         return render(request,"dashboard/import.html",{'form':csvFile})
 
+@login_required(login_url='/connexion/')
 def analyseData(request):
         
         #Création variable stockage data
@@ -115,6 +121,7 @@ def analyseData(request):
 
         return render(request, 'dashboard/import-analyser.html', context )
 
+@login_required(login_url='/connexion/')
 def cleanData(self, *args, **options):
 
     try:
@@ -252,6 +259,7 @@ def cleanData(self, *args, **options):
     messages.success(self, 'CSV nettoyé et enregistré dans la base de donnée!')
     return redirect("import")
 
+@login_required(login_url='/connexion/')
 def deleteData(self):
 
     detailInvoices = DetailInvoice.objects.all().delete()
@@ -263,6 +271,7 @@ def deleteData(self):
 
     return redirect('home')
 
+@login_required(login_url='/connexion/')
 def sellByCountryTop(request):
 
     sql = '''SELECT dashboard_invoice.country, count(*) 
@@ -279,6 +288,7 @@ def sellByCountryTop(request):
 
     return render(request, "dashboard/graphique-region.html", context)
 
+@login_required(login_url='/connexion/')
 def sellByCountryTop2010(request):
     
     sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -297,6 +307,7 @@ def sellByCountryTop2010(request):
 
     return render(request, "dashboard/graphique-region.html", context)
 
+@login_required(login_url='/connexion/')
 def sellByCountryTop2011(request):
     
     sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -315,6 +326,7 @@ def sellByCountryTop2011(request):
 
     return render(request, "dashboard/graphique-region.html", context)
 
+@login_required(login_url='/connexion/')
 def sellByCountryFlop(request):
 
     sql = '''SELECT dashboard_invoice.country, count(*) 
@@ -328,6 +340,7 @@ def sellByCountryFlop(request):
 
     return render(request, "dashboard/graphique-region.html", {'data': res})
 
+@login_required(login_url='/connexion/')
 def sellByCountryFlop2010(request):
     
     sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -343,6 +356,7 @@ def sellByCountryFlop2010(request):
 
     return render(request, "dashboard/graphique-region.html", {'data': res})
 
+@login_required(login_url='/connexion/')
 def sellByCountryFlop2011(request):
 
     sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -358,6 +372,7 @@ def sellByCountryFlop2011(request):
 
     return render(request, "dashboard/graphique-region.html", {'data': res})
 
+@login_required(login_url='/connexion/')
 def sellByProductTop(request):
 
     sql=('''SELECT dashboard_detailinvoice.stockcode, count(*) 
@@ -374,6 +389,7 @@ def sellByProductTop(request):
 
     return render(request, "dashboard/graphique-produit.html", context)
 
+@login_required(login_url='/connexion/')
 def sellByProductTop2010(request):
 
     sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
@@ -392,6 +408,7 @@ def sellByProductTop2010(request):
 
     return render(request, "dashboard/graphique-produit.html", context)
 
+@login_required(login_url='/connexion/')
 def sellByProductTop2011(request):
 
     sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
@@ -410,6 +427,7 @@ def sellByProductTop2011(request):
 
     return render(request, "dashboard/graphique-produit.html", context)
 
+@login_required(login_url='/connexion/')
 def sellByProductFlop(request):
 
     sql=('''SELECT dashboard_detailinvoice.stockcode, count(*) 
@@ -423,6 +441,7 @@ def sellByProductFlop(request):
 
     return render(request, "dashboard/graphique-produit.html", {'data': res})
 
+@login_required(login_url='/connexion/')
 def sellByProductFlop2010(request):
 
     sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
@@ -438,6 +457,7 @@ def sellByProductFlop2010(request):
 
     return render(request, "dashboard/graphique-produit.html", {'data': res})
 
+@login_required(login_url='/connexion/')
 def sellByProductFlop2011(request):
 
     sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
@@ -453,6 +473,7 @@ def sellByProductFlop2011(request):
 
     return render(request, "dashboard/graphique-produit.html", {'data': res})
 
+@login_required(login_url='/connexion/')
 def sellByCountryProduct(request):
 
     sql=('''SELECT dashboard_detailinvoice.stockcode, count(*) 
@@ -465,6 +486,51 @@ def sellByCountryProduct(request):
     res = Product.objects.raw(sql)
 
     return render(request, "dashboard/graphique-region-produit.html", {'data': res})
+
+def dictfetchall(cursor):
+    desc = cursor.description
+    return [
+            dict(zip([col[0] for col in desc], row))
+            for row in cursor.fetchall()
+    ]
+
+@login_required(login_url='/connexion/')
+def sellByMonth(request):
+
+    #establishing the connection
+    conn = psycopg2.connect(
+        database="DB_Analysis_Business_Intelligence", user='moni', password='moni', host='127.0.0.1', port= '5432'
+    )
+
+    #Setting auto commit false
+    conn.autocommit = True
+
+    #Creating a cursor object using the cursor() method
+    cursor = conn.cursor()
+    cursor.execute('''SELECT EXTRACT(MONTH FROM i.invoicedate) as month, count(*) 
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        GROUP BY EXTRACT(MONTH FROM i.invoicedate)
+                        ORDER BY month asc''')
+
+    r = dictfetchall(cursor)
+
+    cursor.execute('''SELECT EXTRACT(MONTH FROM i.invoicedate) as month, ROUND(sum(di.totalcost)) as cout
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        GROUP BY EXTRACT(MONTH FROM i.invoicedate)
+                        ORDER BY month asc''')
+
+    r2 = dictfetchall(cursor)
+
+    cursor.close()
+
+    context = {'data1': r, 'data2': r2}
+
+    return render(request, "dashboard/graphique-vente-mensuelle.html", context)
+
 
 
 
