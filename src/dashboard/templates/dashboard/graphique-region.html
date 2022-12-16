@@ -9,8 +9,16 @@
 <div class="container border-dark">
     <div class="row">
         <div class="col">
-            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region' %}">TOP 10</a>
+            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-top' %}">TOP 10</a>
             <a class="btn btn-danger" aria-current="page" href="{%  url 'graphique-region-flop' %}">FLOP 10</a>
+        <br><br>
+        {% if top == 'all years' or top == '2010' or top == '2011' %}
+            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-top-2010' %}">2010</a>
+            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-top-2011' %}">2011</a>               
+        {% else %}
+            <a class="btn btn-danger" aria-current="page" href="{%  url 'graphique-region-flop-2010' %}">2010</a>
+            <a class="btn btn-danger" aria-current="page" href="{%  url 'graphique-region-flop-2011' %}">2011</a>
+        {% endif %}
         </div>
         <div class="col">
         </div>
@@ -40,7 +48,7 @@
                         data: {
                             labels: [{% for i in data %} '{{i.country}}', {% endfor %}],
                             datasets: [{
-                                label: 'Ventes par région',
+                                label: '',
                                 data: [{% for i in data %} '{{i.count}}', {% endfor %}],
                                 backgroundColor: [
                                     'rgba(255,99,132,1)',
@@ -103,7 +111,7 @@
                         data: {
                             labels: [{% for i in data %} '{{i.country}}', {% endfor %}],
                             datasets: [{
-                                label: 'Ventes par région',
+                                label: '',
                                 data: [{% for i in data %} '{{i.count}}', {% endfor %}],
                                 backgroundColor: [
                                     'rgba(255,99,132,1)',
