@@ -194,6 +194,12 @@ def cleanData(self, *args, **options):
         
         #Requête pour envoi data dans les différentes tables de la BDD
         sql = '''
+
+        ALTER TABLE dashboard_invoice
+            ALTER COLUMN invoicedate TYPE text;
+
+        SET CONSTRAINTS ALL IMMEDIATE;
+
         INSERT INTO dashboard_country(country)
             SELECT country
             FROM dashboard_datatransfert
@@ -222,6 +228,10 @@ def cleanData(self, *args, **options):
 
         DELETE FROM dashboard_datatransfert;
 
+        ALTER TABLE dashboard_invoice
+            ALTER COLUMN invoicedate TYPE date
+            USING invoicedate::date;
+
         '''
 
         #Executer la requête pour envoi dans la BDD Postgre
@@ -242,7 +252,7 @@ def cleanData(self, *args, **options):
     messages.success(self, 'CSV nettoyé et enregistré dans la base de donnée!')
     return redirect("import")
 
-def deleteData():
+def deleteData(self):
 
     detailInvoices = DetailInvoice.objects.all().delete()
     invoices = Invoice.objects.all().delete()
@@ -258,14 +268,52 @@ def sellByCountryTop(request):
     sql = '''SELECT dashboard_invoice.country, count(*) 
                 FROM dashboard_detailinvoice 
                 INNER JOIN dashboard_invoice ON dashboard_detailinvoice.invoiceno = dashboard_invoice.invoiceno 
-                WHERE dashboard_invoice.country <> 'United Kingdom'
                 GROUP BY dashboard_invoice.country
                 ORDER BY count DESC 
                 LIMIT 10'''
 
     res = Country.objects.raw(sql)
+    top = 'all years'
 
-    return render(request, "dashboard/graphique-region.html", {'data': res})
+    context = {'data': res, 'top':top}
+
+    return render(request, "dashboard/graphique-region.html", context)
+
+def sellByCountryTop2010(request):
+    
+    sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
+                FROM dashboard_invoice as i
+                INNER JOIN dashboard_detailinvoice as di
+                ON i.invoiceno = di.invoiceno
+                WHERE EXTRACT(YEAR FROM i.invoicedate) = 2010
+                GROUP BY EXTRACT(YEAR FROM i.invoicedate), i.country
+                ORDER BY count DESC
+                LIMIT 10'''
+    
+    res = Country.objects.raw(sql)
+    top = '2010'
+
+    context = {'data': res, 'top':top}
+
+    return render(request, "dashboard/graphique-region.html", context)
+
+def sellByCountryTop2011(request):
+    
+    sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
+                FROM dashboard_invoice as i
+                INNER JOIN dashboard_detailinvoice as di
+                ON i.invoiceno = di.invoiceno
+                WHERE EXTRACT(YEAR FROM i.invoicedate) = 2011
+                GROUP BY EXTRACT(YEAR FROM i.invoicedate), i.country
+                ORDER BY count DESC
+                LIMIT 10'''
+    
+    res = Country.objects.raw(sql)
+    top = '2011'
+
+    context = {'data': res, 'top':top}
+
+    return render(request, "dashboard/graphique-region.html", context)
 
 def sellByCountryFlop(request):
 
@@ -280,6 +328,36 @@ def sellByCountryFlop(request):
 
     return render(request, "dashboard/graphique-region.html", {'data': res})
 
+def sellByCountryFlop2010(request):
+    
+    sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
+                FROM dashboard_invoice as i
+                INNER JOIN dashboard_detailinvoice as di
+                ON i.invoiceno = di.invoiceno
+                WHERE EXTRACT(YEAR FROM i.invoicedate) = 2010
+                GROUP BY EXTRACT(YEAR FROM i.invoicedate), i.country
+                ORDER BY count ASC
+                LIMIT 10'''
+    
+    res = Country.objects.raw(sql)
+
+    return render(request, "dashboard/graphique-region.html", {'data': res})
+
+def sellByCountryFlop2011(request):
+
+    sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
+                FROM dashboard_invoice as i
+                INNER JOIN dashboard_detailinvoice as di
+                ON i.invoiceno = di.invoiceno
+                WHERE EXTRACT(YEAR FROM i.invoicedate) = 2011
+                GROUP BY EXTRACT(YEAR FROM i.invoicedate), i.country
+                ORDER BY count ASC
+                LIMIT 10'''
+    
+    res = Country.objects.raw(sql)
+
+    return render(request, "dashboard/graphique-region.html", {'data': res})
+
 def sellByProductTop(request):
 
     sql=('''SELECT dashboard_detailinvoice.stockcode, count(*) 
@@ -290,8 +368,47 @@ def sellByProductTop(request):
                 LIMIT 10''')
 
     res = Product.objects.raw(sql)
+    top = 'all years'
 
-    return render(request, "dashboard/graphique-produit.html", {'data': res})
+    context = {'data': res, 'top':top}
+
+    return render(request, "dashboard/graphique-produit.html", context)
+
+def sellByProductTop2010(request):
+
+    sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
+			FROM dashboard_invoice as i
+			INNER JOIN dashboard_detailinvoice as di
+			ON i.invoiceno = di.invoiceno
+			WHERE EXTRACT(YEAR FROM i.invoicedate) = 2010
+			GROUP BY EXTRACT(YEAR FROM i.invoicedate), di.stockcode
+			ORDER BY count DESC
+			LIMIT 10''')
+
+    res = Product.objects.raw(sql)
+    top = '2010'
+
+    context = {'data': res, 'top':top}
+
+    return render(request, "dashboard/graphique-produit.html", context)
+
+def sellByProductTop2011(request):
+
+    sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
+			FROM dashboard_invoice as i
+			INNER JOIN dashboard_detailinvoice as di
+			ON i.invoiceno = di.invoiceno
+			WHERE EXTRACT(YEAR FROM i.invoicedate) = 2011
+			GROUP BY EXTRACT(YEAR FROM i.invoicedate), di.stockcode
+			ORDER BY count DESC
+			LIMIT 10''')
+
+    res = Product.objects.raw(sql)
+    top = '2011'
+
+    context = {'data': res, 'top':top}
+
+    return render(request, "dashboard/graphique-produit.html", context)
 
 def sellByProductFlop(request):
 
@@ -301,6 +418,36 @@ def sellByProductFlop(request):
                 GROUP BY dashboard_detailinvoice.stockcode
                 ORDER BY count ASC 
                 LIMIT 10''')
+
+    res = Product.objects.raw(sql)
+
+    return render(request, "dashboard/graphique-produit.html", {'data': res})
+
+def sellByProductFlop2010(request):
+
+    sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
+			FROM dashboard_invoice as i
+			INNER JOIN dashboard_detailinvoice as di
+			ON i.invoiceno = di.invoiceno
+			WHERE EXTRACT(YEAR FROM i.invoicedate) = 2010
+			GROUP BY EXTRACT(YEAR FROM i.invoicedate), di.stockcode
+			ORDER BY count ASC
+			LIMIT 10''')
+
+    res = Product.objects.raw(sql)
+
+    return render(request, "dashboard/graphique-produit.html", {'data': res})
+
+def sellByProductFlop2011(request):
+
+    sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
+			FROM dashboard_invoice as i
+			INNER JOIN dashboard_detailinvoice as di
+			ON i.invoiceno = di.invoiceno
+			WHERE EXTRACT(YEAR FROM i.invoicedate) = 2011
+			GROUP BY EXTRACT(YEAR FROM i.invoicedate), di.stockcode
+			ORDER BY count ASC
+			LIMIT 10''')
 
     res = Product.objects.raw(sql)
 
