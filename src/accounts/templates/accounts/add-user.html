@@ -1,0 +1,23 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1 class="text-center">Ajouter un utilisateur</h1>
+
+<form method="POST" style="font-size: 20">
+  {% csrf_token %}
+
+  {{ form.as_p }}
+
+  {% for message in errors.value %}
+    <h3 style="color: red;">
+        {{ message }}
+    </h3>
+  {% endfor %}
+
+  <input type="submit" value="Ajouter">
+
+</form>
+
+{% endblock %}

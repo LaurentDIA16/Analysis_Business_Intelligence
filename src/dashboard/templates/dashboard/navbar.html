@@ -4,7 +4,7 @@
 <nav class="navbar navbar-expand-lg bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="{%  url 'home' %}">
-            <img src="{% static 'images/logo.png' %}" width="86" height="86" alt="logo">
+            <img src="{% static 'images/logo.png' %}" width="86" height="86" alt="logo">   
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,6 +30,7 @@
                         <li><a class="dropdown-item" href="{%  url 'graphique-region' %}">Ventes par région</a></li>
                         <li><a class="dropdown-item" href="{%  url 'graphique-produit' %}">Ventes par produit</a></li>
                         <li><a class="dropdown-item" href="{% url 'graphique-region-produit' %}">Ventes par région et par produit</a></li>
+                        <li><a class="dropdown-item" href="{% url 'graphique-vente-mensuelle' %}">graphique vente par mois</a></li>
                     </ul>
                 </li>
                 {% endif %}
@@ -38,19 +39,30 @@
             <ul class="navbar-nav me-end mb-lg-0">
                 <li class="dropstart me-3">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ user.username }}
+                       Bonjour {{ user.username }}
                     </a>
                     <ul class="dropdown-menu">
+                        
+                        {% if user.is_superuser %}
                         <li><a class="dropdown-item" href="{%  url 'import' %}">Importer CSV</a></li>
-                        <li><a class="dropdown-item" href="#">Ajouter un utilisateur</a></li>
+                        <li><a class="dropdown-item" href="{%  url 'add-user' %}">Ajouter un utilisateur</a></li>
                         <li><a class="dropdown-item bg-warning" href="{% url 'supprimer-données' %}">Supprimer les données</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item bg-danger" href="{%  url 'logout' %}">Déconnexion</a></li>
+                        {% else %}
+                        <li><a class="dropdown-item" href="{%  url 'import' %}">Importer CSV</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item bg-danger" href="{%  url 'logout' %}">Déconnexion</a></li>
+                        {% endif %}
                     </ul>
                 </li>
                 <li> 
                     <div class="picture-user"> 
-                        <img src="{% static 'images/robotia.png' %}" width="250" height="250" alt="photo">
+                        {% if user.is_superuser %}
+                        <img src="{% static 'images/Super_user.png' %}" width="250" height="250" alt="photo">
+                        {% else %}
+                        <img src="{% static 'images/End_user.png' %}" width="250" height="250" alt="photo">
+                        {% endif %}
                     </div> 
                 </li>
             {% else %}
