@@ -7,11 +7,25 @@
     <!-- Dashboard starts -->
     <main>
         <div class="page-header">
-            <div>
-                <h1>Dashboard</h1>
-                <h5>Bienvenue sur votre dashboard. Importer vos CSV, 
-                nettoyer les données et analyser vos graphiques</h5> 
+            <div class="col-md-6">
+                <div>
+                    <h1>Dashboard</h1>
+                    <h5>Bienvenue sur votre dashboard. Importer vos CSV, 
+                    nettoyer les données et analyser vos graphiques</h5> 
+                </div>
             </div>
+
+            <!-- Card import csv starts -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="header-actions-button">
+                        <!-- Aller à la page pour importer un csv starts -->
+                        <div><h5>Importer un fichier CSV</h5></div>
+                        <div><a class="btn btn-secondary round" aria-current="page" href="{%  url 'import' %}">Importer</a></div>
+                    </div>   
+                </div>
+            </div>
+            <!-- Card import csv ends -->
         </div>
 
         {% if invoices == 0 %}
@@ -20,7 +34,24 @@
 
         {% else %}
         <!-- KPI starts -->
+
         <div class="cards">
+
+            <div class="card-single bg-success">
+                <div class="card-flex">
+                    <div class="card-info">
+                        <div class="card-head">
+                            <span>Chiffres d'affaires</span>
+                            <small>Somme des ventes de produits</small>
+                        </div>
+                        <h2> {{ earningsfloat }} $</h2>
+                    </div>
+                    <div class="card-chart">
+                        <span class="las la-cash-register"></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="card-single bg-primary">
                 <div class="card-flex">
                     <div class="card-info">
@@ -66,20 +97,7 @@
                 </div>
             </div>
 
-            <div class="card-single bg-success">
-                <div class="card-flex">
-                    <div class="card-info">
-                        <div class="card-head">
-                            <span>Chiffres d'affaires</span>
-                            <small>Somme des ventes de produits</small>
-                        </div>
-                        <h2> {{ earningsfloat }} $</h2>
-                    </div>
-                    <div class="card-chart">
-                        <span class="las la-cash-register"></span>
-                    </div>
-                </div>
-            </div>
+            
         </div>
         <!-- KPI ends -->
 
@@ -90,6 +108,7 @@
                     <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
                     <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
                     <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région et par produit</a>
+                    <a class="btn btn-info round" aria-current="page" href="{%  url 'graphique-vente-mensuelle' %}">Ventes par mois</a>
                 </div>
             </div>
         </div>

@@ -24,12 +24,12 @@
                 <p class="card-text">{{ dataOrigin }}</p>
             </div>
             <div class="card-clean">
-                <h6 class="card-paragraph bold-text">À nettoyer</h6>
+                <h5 class="card-paragraph bold-text">À nettoyer</h5>
                 <p class="card-text-delete">{{ dataToDelete }}</p>
                 <p class="card-text-repair">{{ dataToRepair }}</p>  
             </div>
             <div class="card-total">
-                <h6 class="card-paragraph bold-text">Après nettoyage</h6>
+                <h5 class="card-paragraph bold-text">Après nettoyage</h5>
                 <p class="card-text">{{ dataFinal }}</p>
 
                 {% if percDataDeleteFloat <= 5 %}
@@ -38,7 +38,7 @@
                         Vous pouvez nettoyer les données
                     </p>
                     <div class="header-actions-button">
-                        <a class="btn btn-success" aria-current="page" href="{%  url 'nettoyer' %}" style="--bs-btn-padding-y: 0.36rem; --bs-btn-padding-x: 1rem; --bs-btn-font-size: 1.1rem;">Nettoyer données</a>
+                        <a class="btn btn-success round" aria-current="page" href="{%  url 'nettoyer' %}" style="--bs-btn-padding-y: 0.36rem; --bs-btn-padding-x: 1rem; --bs-btn-font-size: 1.1rem;">Nettoyer données</a>
                     </div>
                 </div>
 
@@ -49,7 +49,7 @@
                         Nettoyer quand même?
                     </p>
                     <div class="header-actions-button">
-                        <a class="btn btn-warning" aria-current="page" href="{%  url 'nettoyer' %}" style="--bs-btn-padding-y: 0.36rem; --bs-btn-padding-x: 1rem; --bs-btn-font-size: 1.1rem;">Nettoyer données</a>
+                        <a class="btn btn-warning round" aria-current="page" href="{%  url 'nettoyer' %}" style="--bs-btn-padding-y: 0.36rem; --bs-btn-padding-x: 1rem; --bs-btn-font-size: 1.1rem;">Nettoyer données</a>
                     </div>
                 </div>
                 {% endif %}

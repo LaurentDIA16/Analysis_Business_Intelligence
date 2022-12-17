@@ -15,7 +15,11 @@
 
 .navbar {
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+    font-size: 22;
+}
 
+.dropdown-item {
+    font-size: 20;
 }
 
 body {
@@ -32,7 +36,7 @@ body {
 } */
 
 .picture-user img {
-    width: 60px;
+    width: 50px;
     height: 50px;
     border-radius: 50%;
     border-left: 2px solid transparent;
@@ -116,21 +120,42 @@ main {
     padding: 0.5rem 0.5rem;
     border-radius: 5px;
     font-weight: 600;
+    font-size: 20;
 }
 
-.header-actions-button button {
+.card {
+    outline: none;
+    background: rgba(0,0,0,0.1);
+    text-align: center;
+    width: 50%;
+    display:contents;
+}
+
+.header-actions-button {
     outline: none;
     color: #fff;
-    background: #0cb01c;
     border: none;
-    padding: 0.5rem 0.5rem;
-    border-radius: 5px;
+    padding: 1rem 1rem;
     font-weight: 600;
+}
+
+.header-actions-button h5 {
+    color: #747774;
+}
+
+.header-actions-button a {
+    border: none;
+    padding: 1rem 1.3rem 1rem 1rem;
+    align-items: center;
 }
 
 .header-actions button span {
     font-size: 1rem;
     margin-right: 0rem;
+}
+
+.graphic-actions-button a{
+    font-size: 1.2rem;
 }
 
 .cards {
@@ -157,7 +182,8 @@ main {
     display: block;
     text-transform: uppercase;
     color: rgb(255, 254, 254);
-    font-size: 0.9rem;
+    font-size: 1rem;
+    font-weight:bold;
 }
 
 .card-head small {
@@ -175,10 +201,17 @@ main {
     color: rgb(255, 255, 255);
 }
 
+
 .container-import {
     width: 50%;
     box-sizing: border-box;
-    box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.1);
+    font-size: 20;
+    margin-top: 0;
+    margin-right: auto;
+    margin-bottom: 2rem;
+    margin-left: auto;
 }
 
 .container-button-graphique {
@@ -189,7 +222,6 @@ main {
 .card-title {
     padding-top: 1rem;    
     margin-left: 1rem;
-
 }
 
 .card-paragraph {
@@ -197,7 +229,7 @@ main {
     border-radius: 0.5rem;
     background: #747774;
     box-shadow: 1rem 1rem 1rem rgba(117, 117, 117, 0.1);
-    width: fit-content;
+    width: 7rem;
     color: #efefef;
 }
 
@@ -207,6 +239,10 @@ main {
     background: rgba(117, 117, 117, 0.1);
     padding: 1rem;
     margin: 2rem;
+}
+
+.card-text {
+    text-align: left;
 }
 
 .card-text-delete {
@@ -231,15 +267,43 @@ main {
     margin: 2rem;
 }
 
+.card-validation {
+    display: flex;
+}
+
+.card-validation p {
+    margin-top: 1rem;
+}
+
+.card-validation.header-actions-button a {
+    align-content: center;
+}
+
 .round {
-    border-radius: 24px;
+    border-radius: 2rem;
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-   align-items: center; 
+   align-items: center;
+   height: fit-content;
 }
 
+footer {
+    position: fixed;
+    height: 50px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+    text-align: center;
+}
+
+footer p {
+    color: white;
+    margin-top: calc(20px - 0.5em);
+    height: auto;
+}
 
 @media only screen and (max-width: 1390px) {
 
