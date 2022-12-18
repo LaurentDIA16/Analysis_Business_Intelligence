@@ -1,0 +1,107 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h1>Répartition des ventes de produit par coût pour United Kingdom</h1>
+<!-- Graphique starts -->
+<div class="container">
+    <div class="row my-5">
+        <!-- Graphique en bar start -->
+        <div class="col-md-12">
+            <div class="bg-white">
+                <div class="chartCard">
+                    <div class="chartBox">
+                      <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                  // setup 
+                    const data = {
+                        labels: [{% for i in data1 %} '{{i.stockcode}}', {% endfor %}],
+                        datasets: [{
+                            label: 'Quantité',
+                            data: [{% for i in data1%} '{{i.count}}', {% endfor %}],
+                            backgroundColor: [
+                                'rgba(255, 26, 104, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 26, 104, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                            ],
+                            borderColor: [
+                            'rgba(255, 26, 104, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 26, 104, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                            ],
+                            borderWidth: 1,
+                            yAxisID: 'dollars',
+                            order: 2
+                        }, {
+                            label: 'Ventes en $',
+                            data: [{% for i in data2%} '{{i.cout}}', {% endfor %}],
+                            backgroundColor: [
+                                'rgba(0, 0, 0, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(0, 0, 0, 1)'
+                            ],
+                            type: 'line',
+                            yAxisID: 'quantity',
+                            order: 1
+                        }]
+                    };
+
+                    // config 
+                    const config = {
+                        type: 'bar',
+                        data,
+                        options: {
+                            scales: {
+                                dollars: {
+                                    beginAtZero: true,
+                                    type: 'linear',
+                                    position: 'left'
+                                },
+                                quantity: {
+                                    beginAtZero: true,
+                                    type: 'linear',
+                                    position: 'right',
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    // render init block
+                    const myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config
+                    );
+
+                </script>
+            </div>
+        </div>
+        <!-- Graphique en bar end -->
+    </div>
+</div>
+{% endblock %}

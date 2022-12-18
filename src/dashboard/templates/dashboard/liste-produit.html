@@ -1,0 +1,50 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+
+<h1>Liste des produits référencés et leurs prix moyen de facturation</h1>
+
+<!-- Table liste des produits référencés starts -->
+<div class="container">
+    <div class="row mt-5 me-5">
+        <div class="col-md-12">
+        <table id="table_product" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col">StockCode</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Prix moyen unitaire $</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in data %}
+            <tr>
+                <td>{{ i.stockcode }}</td>
+                <td>{{ i.description }}</td>
+                <td>{{ i.meanprice }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Table liste des produits référencés ends -->
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+<!-- <script src="{% static 'js/script.js' %}"></script> -->
+
+<script>
+$(document).ready(function () {
+    $('#table_product').DataTable();
+});
+</script>
+
+{% endblock %}
+
