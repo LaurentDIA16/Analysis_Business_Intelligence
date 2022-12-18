@@ -3,7 +3,8 @@ from django.urls import path
 from dashboard.views import home, import_csv, analyseData, cleanData, deleteData
 from dashboard.views import sellByCountryTop, sellByCountryTop2010, sellByCountryTop2011, sellByCountryFlop, sellByCountryFlop2010, sellByCountryFlop2011
 from dashboard.views import sellByProductTop, sellByProductTop2010, sellByProductTop2011, sellByProductFlop, sellByProductFlop2010, sellByProductFlop2011
-from dashboard.views import sellByCountryProduct, sellByMonth
+from dashboard.views import sellByCountryProductTop, sellByCountryProductTop2010, sellByCountryProductTop2011, sellByCountryProductFlop, sellByCountryProductFlop2010, sellByCountryProductFlop2011 
+from dashboard.views import sellByCountryProductOne, sellByMonth, listProduct
 from accounts.views import add_user, login_user, logout_user
 
 urlpatterns = [
@@ -31,8 +32,16 @@ urlpatterns = [
     path("AnalysisBusinessIntelligence/graphique-produit/flop/", sellByProductFlop, name="graphique-produit-flop"),
     path("AnalysisBusinessIntelligence/graphique-produit/flop/2010/", sellByProductFlop2010, name="graphique-produit-flop-2010"),
     path("AnalysisBusinessIntelligence/graphique-produit/flop/2011/", sellByProductFlop2011, name="graphique-produit-flop-2011"),
-    path("AnalysisBusinessIntelligence/graphique-region-produit/", sellByCountryProduct, name="graphique-region-produit"),   
+    path("AnalysisBusinessIntelligence/graphique-region-produit/", sellByCountryProductTop, name="graphique-region-produit"),
+    path("AnalysisBusinessIntelligence/graphique-region-produit/top/", sellByCountryProductTop, name="graphique-region-produit-top"),
+    path("AnalysisBusinessIntelligence/graphique-region-produit/top/2010/", sellByCountryProductTop2010, name="graphique-region-produit-top-2010"),
+    path("AnalysisBusinessIntelligence/graphique-region-produit/top/2011/", sellByCountryProductTop2011, name="graphique-region-produit-top-2011"),
+    path("AnalysisBusinessIntelligence/graphique-region-produit/flop/", sellByCountryProductFlop, name="graphique-region-produit-flop"),
+    path("AnalysisBusinessIntelligence/graphique-region-produit/flop/2010/", sellByCountryProductFlop2010, name="graphique-region-produit-flop-2010"),
+    path("AnalysisBusinessIntelligence/graphique-region-produit/flop/2011/", sellByCountryProductFlop2011, name="graphique-region-produit-flop-2011"),
     path("AnalysisBusinessIntelligence/graphique-vente-mensuelle/", sellByMonth, name="graphique-vente-mensuelle"),
+    path("AnalysisBusinessIntelligence/graphique-region-produit/UK", sellByCountryProductOne, name="graphique-region-produit-uk"),
+    path("AnalysisBusinessIntelligence/liste-produit/", listProduct, name="liste-produit"),
 ]
 
 

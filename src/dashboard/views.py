@@ -34,7 +34,11 @@ def home(request):
     return render(request,"dashboard/home.html", context)
 
 @login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
-def import_csv(request):  
+def import_csv(request):
+    #Pour garder le filtrage du Dropdown Graphique si pas de data
+    invoices = Invoice.objects.all().count()
+
+    #Importer CSV
     if request.method == 'POST':  
         csvFile = InputFileForm(request.POST, request.FILES)  
         if csvFile.is_valid():  
@@ -45,8 +49,8 @@ def import_csv(request):
     
     else:  
         csvFile = InputFileForm()  
-        return render(request,"dashboard/import.html",{'form':csvFile})
-
+        return render(request,"dashboard/import.html",{'form':csvFile, 'invoices':invoices})
+    
 @login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
 def analyseData(request):
         
@@ -112,12 +116,16 @@ def analyseData(request):
         percDataDelete = f"Pourcentage suppression: {round(percDataDelete,2)} %"
         print(type(percDataDelete))
 
+        #Pour garder le filtrage du Dropdown Graphique Navbar 
+        invoices = Invoice.objects.all().count()
+
         context = {'dataOrigin':dataOrigin, 
                    'dataToDelete':dataToDelete, 
                    'dataToRepair':dataToRepair,
                    'dataFinal':dataFinal,
                    'percDataDelete':percDataDelete,
-                   'percDataDeleteFloat':percDataDeleteFloat}
+                   'percDataDeleteFloat':percDataDeleteFloat,
+                   'invoices':invoices}
 
         return render(request, 'dashboard/import-analyser.html', context )
 
@@ -474,18 +482,175 @@ def sellByProductFlop2011(request):
     return render(request, "dashboard/graphique-produit.html", {'data': res})
 
 @login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
-def sellByCountryProduct(request):
+def sellByCountryProductTop(request):
 
-    sql=('''SELECT dashboard_detailinvoice.stockcode, count(*) 
-                FROM dashboard_detailinvoice 
-                INNER JOIN dashboard_invoice ON dashboard_detailinvoice.invoiceno = dashboard_invoice.invoiceno 
-                GROUP BY dashboard_detailinvoice.stockcode
-                ORDER BY count ASC 
-                LIMIT 10''')
+    sqlCountry = '''SELECT dashboard_invoice.country, count(*) 
+                        FROM dashboard_detailinvoice 
+                        INNER JOIN dashboard_invoice ON dashboard_detailinvoice.invoiceno = dashboard_invoice.invoiceno 
+                        GROUP BY dashboard_invoice.country
+                        ORDER BY count DESC 
+                        LIMIT 10'''
 
-    res = Product.objects.raw(sql)
+    
+    sqlProduct ='''SELECT dashboard_detailinvoice.stockcode, count(*) 
+                        FROM dashboard_detailinvoice 
+                        INNER JOIN dashboard_invoice ON dashboard_detailinvoice.invoiceno = dashboard_invoice.invoiceno 
+                        GROUP BY dashboard_detailinvoice.stockcode
+                        ORDER BY count DESC 
+                        LIMIT 10'''
+    
+    resCountry = Country.objects.raw(sqlCountry)
+    resProduct = Product.objects.raw(sqlProduct)
+    top = 'all years'
 
-    return render(request, "dashboard/graphique-region-produit.html", {'data': res})
+    context = {'dataCountry': resCountry,'dataProduct':resProduct, 'top':top}
+
+    return render(request, "dashboard/graphique-region-produit.html", context)
+
+@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+def sellByCountryProductTop2010(request):
+
+    sqlCountry = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        WHERE EXTRACT(YEAR FROM i.invoicedate) = 2010
+                        GROUP BY EXTRACT(YEAR FROM i.invoicedate), i.country
+                        ORDER BY count DESC
+                        LIMIT 10'''
+
+    
+    sqlProduct ='''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        WHERE EXTRACT(YEAR FROM i.invoicedate) = 2010
+                        GROUP BY EXTRACT(YEAR FROM i.invoicedate), di.stockcode
+                        ORDER BY count DESC
+                        LIMIT 10'''
+    
+    resCountry = Country.objects.raw(sqlCountry)
+    resProduct = Product.objects.raw(sqlProduct)
+
+    top = '2010'
+
+    context = {'dataCountry': resCountry,'dataProduct':resProduct, 'top':top}
+
+    return render(request, "dashboard/graphique-region-produit.html", context)
+
+@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+def sellByCountryProductTop2011(request):
+
+    sqlCountry = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        WHERE EXTRACT(YEAR FROM i.invoicedate) = 2011
+                        GROUP BY EXTRACT(YEAR FROM i.invoicedate), i.country
+                        ORDER BY count DESC
+                        LIMIT 10'''
+
+    
+    sqlProduct ='''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        WHERE EXTRACT(YEAR FROM i.invoicedate) = 2011
+                        GROUP BY EXTRACT(YEAR FROM i.invoicedate), di.stockcode
+                        ORDER BY count DESC
+                        LIMIT 10'''
+    
+    resCountry = Country.objects.raw(sqlCountry)
+    resProduct = Product.objects.raw(sqlProduct)
+
+    top = '2011'
+
+    context = {'dataCountry': resCountry,'dataProduct':resProduct, 'top':top}
+
+    return render(request, "dashboard/graphique-region-produit.html", context)
+
+@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+def sellByCountryProductFlop(request):
+    
+    sqlCountry = '''SELECT dashboard_invoice.country, count(*) 
+                        FROM dashboard_detailinvoice 
+                        INNER JOIN dashboard_invoice ON dashboard_detailinvoice.invoiceno = dashboard_invoice.invoiceno 
+                        GROUP BY dashboard_invoice.country
+                        ORDER BY count ASC 
+                        LIMIT 10'''
+
+    
+    sqlProduct ='''SELECT dashboard_detailinvoice.stockcode, count(*) 
+                        FROM dashboard_detailinvoice 
+                        INNER JOIN dashboard_invoice ON dashboard_detailinvoice.invoiceno = dashboard_invoice.invoiceno 
+                        GROUP BY dashboard_detailinvoice.stockcode
+                        ORDER BY count ASC 
+                        LIMIT 10'''
+    
+    resCountry = Country.objects.raw(sqlCountry)
+    resProduct = Product.objects.raw(sqlProduct)
+
+    context = {'dataCountry': resCountry,'dataProduct':resProduct}
+
+    return render(request, "dashboard/graphique-region-produit.html", context)
+
+@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+def sellByCountryProductFlop2010(request):
+
+    sqlCountry = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        WHERE EXTRACT(YEAR FROM i.invoicedate) = 2010
+                        GROUP BY EXTRACT(YEAR FROM i.invoicedate), i.country
+                        ORDER BY count ASC
+                        LIMIT 10'''
+
+    
+    sqlProduct ='''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        WHERE EXTRACT(YEAR FROM i.invoicedate) = 2010
+                        GROUP BY EXTRACT(YEAR FROM i.invoicedate), di.stockcode
+                        ORDER BY count ASC
+                        LIMIT 10'''
+    
+    resCountry = Country.objects.raw(sqlCountry)
+    resProduct = Product.objects.raw(sqlProduct)
+
+    context = {'dataCountry': resCountry,'dataProduct':resProduct}
+
+    return render(request, "dashboard/graphique-region-produit.html", context)
+
+@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+def sellByCountryProductFlop2011(request):
+
+    sqlCountry = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        WHERE EXTRACT(YEAR FROM i.invoicedate) = 2011
+                        GROUP BY EXTRACT(YEAR FROM i.invoicedate), i.country
+                        ORDER BY count ASC
+                        LIMIT 10'''
+
+    
+    sqlProduct ='''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        WHERE EXTRACT(YEAR FROM i.invoicedate) = 2011
+                        GROUP BY EXTRACT(YEAR FROM i.invoicedate), di.stockcode
+                        ORDER BY count ASC
+                        LIMIT 10'''
+    
+    resCountry = Country.objects.raw(sqlCountry)
+    resProduct = Product.objects.raw(sqlProduct)
+
+    context = {'dataCountry': resCountry,'dataProduct':resProduct}
+
+    return render(request, "dashboard/graphique-region-produit.html", context)
 
 def dictfetchall(cursor):
     desc = cursor.description
@@ -531,30 +696,59 @@ def sellByMonth(request):
 
     return render(request, "dashboard/graphique-vente-mensuelle.html", context)
 
+@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+def sellByCountryProductOne(request):
 
+    #establishing the connection
+    conn = psycopg2.connect(
+        database="DB_Analysis_Business_Intelligence", user='moni', password='moni', host='127.0.0.1', port= '5432'
+    )
 
+    #Setting auto commit false
+    conn.autocommit = True
 
+    #Creating a cursor object using the cursor() method
+    cursor = conn.cursor()
+    cursor.execute('''SELECT di.stockcode, count(di.stockcode), ROUND(sum(di.totalcost)) as cout
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        WHERE i.country = 'United Kingdom'
+                        GROUP BY di.stockcode
+                        ORDER BY cout DESC
+                        LIMIT 10''')
 
-# Fonction à utiliser avec la méthode ci-dessous
-# def dictfetchall(cursor):
-#     desc = cursor.description
-#     return [
-#             dict(zip([col[0] for col in desc], row))
-#             for row in cursor.fetchall()
-#     ]
+    r = dictfetchall(cursor)
 
-# Fonction avec une autre méthode
-# def sell_by_country(request):
+    cursor.execute('''SELECT di.stockcode, count(di.stockcode), ROUND(sum(di.totalcost)) as cout
+                        FROM dashboard_invoice as i
+                        INNER JOIN dashboard_detailinvoice as di
+                        ON i.invoiceno = di.invoiceno
+                        WHERE i.country = 'United Kingdom'
+                        GROUP BY di.stockcode
+                        ORDER BY cout DESC
+                        LIMIT 10''')
 
-#     cursor = connection.cursor()
-#     cursor.execute('''SELECT dashboard_invoice.country, count(*) 
-#                             FROM dashboard_detailinvoice 
-#                             INNER JOIN dashboard_invoice ON dashboard_detailinvoice.invoiceno = dashboard_invoice.invoiceno 
-#                             GROUP BY dashboard_invoice.country
-#                             ORDER BY count DESC 
-#                             LIMIT 10''')
+    r2 = dictfetchall(cursor)
 
-#     r = dictfetchall(cursor)
+    cursor.close()
 
-#     cursor.close()
-#     return render(request, "dashboard/graphique-region.html", {'data': res})
+    context = {'data1': r, 'data2': r2}
+
+    return render(request, "dashboard/graphique-region-produit-uk.html", context)
+
+def listProduct(request):
+
+    sql = '''SELECT pr.stockcode, pr.description, ROUND(AVG(di.unitprice),2) as meanprice
+                FROM dashboard_product as pr
+                INNER JOIN dashboard_detailinvoice as di
+                ON pr.stockcode = di.stockcode
+                GROUP BY pr.stockcode, pr.description
+                ORDER BY pr.stockcode ASC'''
+    
+    res = Product.objects.raw(sql)
+
+    context = {'data':res}
+
+    return render(request, "dashboard/liste-produit.html", context)
+    

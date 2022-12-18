@@ -101,19 +101,27 @@
         </div>
         <!-- KPI ends -->
 
-        <!-- Boutons accès graphique starts -->
-        <div class="container-button-graphique">
-            <div class="row">
-                <div class="graphic-actions-button">
-                    <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
-                    <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
-                    <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région et par produit</a>
-                    <a class="btn btn-info round" aria-current="page" href="{%  url 'graphique-vente-mensuelle' %}">Ventes par mois</a>
+        <!-- Section graphique starts -->
+        <div class="graphique">
+            <div>
+                <h2>Graphiques</h2>
+            </div>
+            <!-- Boutons accès graphique starts -->
+            <div class="graphique-button">
+                <div class="row">
+                    <div class="graphique-actions-button">
+                        <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
+                        <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
+                        <a class="btn btn-success round" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région et par produit</a>
+                        <a class="btn btn-info round" aria-current="page" href="{%  url 'graphique-vente-mensuelle' %}">Ventes par mois</a>
+                        <a class="btn btn-info round" aria-current="page" href="{%  url 'graphique-region-produit-uk' %}">Ventes par produit region UK</a>
+                    </div>
                 </div>
             </div>
+            <!-- Boutons accès graphique ends -->
         </div>
-        <!-- Boutons accès graphique ends -->
         {% endif %}
+        <!-- Section graphique starts -->
     </main>
     <!-- Dashboard ends -->
 

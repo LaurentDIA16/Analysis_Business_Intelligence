@@ -6,20 +6,27 @@
     <h1>Répartition des ventes par région / produit</h1>
 
     <!-- Boutons accès graphique starts -->
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-produit' %}">TOP 10</a>
-                <a class="btn btn-danger" aria-current="page" href="{%  url 'graphique-region-produit' %}">FLOP 10</a>
-            </div>
-            <div class="col">
-            </div>
-            <div class="col">
-                <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
-                <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
-            </div>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-produit-top' %}">TOP 10</a>
+            <a class="btn btn-danger" aria-current="page" href="{%  url 'graphique-region-produit-flop' %}">FLOP 10</a>
+        <br><br>
+        {% if top == 'all years' or top == '2010' or top == '2011' %}
+            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-produit-top-2010' %}">2010</a>
+            <a class="btn btn-success" aria-current="page" href="{%  url 'graphique-region-produit-top-2011' %}">2011</a>               
+        {% else %}
+            <a class="btn btn-danger" aria-current="page" href="{%  url 'graphique-region-produit-flop-2010' %}">2010</a>
+            <a class="btn btn-danger" aria-current="page" href="{%  url 'graphique-region-produit-flop-2011' %}">2011</a>
+        {% endif %}
+        </div>
+        <div class="col">
+        </div>
+        <div class="col">
+            <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
+            <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
         </div>
     </div>
+</div>
     <!-- Boutons accès graphique ends -->
 
     <div class="container">
@@ -37,10 +44,10 @@
                         var myChart1 = new Chart(ctx1, {
                             type: 'polarArea',
                             data: {
-                                labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
+                                labels: [{% for i in dataCountry %} '{{i.country}}', {% endfor %}],
                                 datasets: [{
-                                    label: '',
-                                    data: [{% for i in data %} '{{i.count}}', {% endfor %}],
+                                    label: 'Liste des pays',
+                                    data: [{% for i in dataCountry %} '{{i.count}}', {% endfor %}],
                                     backgroundColor: [
                                         'rgba(255,99,132,1)',
                                         'rgba(54,162,132,1)',
@@ -100,10 +107,10 @@
                         var myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
+                                labels: [{% for i in dataProduct %} '{{i.stockcode}}', {% endfor %}],
                                 datasets: [{
-                                    label: '',
-                                    data: [{% for i in data %} '{{i.count}}', {% endfor %}],
+                                    label: 'Liste des produits',
+                                    data: [{% for i in dataProduct %} '{{i.count}}', {% endfor %}],
                                     backgroundColor: [
                                         'rgba(255,99,132,1)',
                                         'rgba(54,162,132,1)',

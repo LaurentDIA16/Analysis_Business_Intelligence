@@ -111,7 +111,7 @@
                             data: {
                                 labels: [{% for i in data %} '{{i.stockcode}}', {% endfor %}],
                                 datasets: [{
-                                    label: '',
+                                    label: 'Liste des produits',
                                     data: [{% for i in data %} '{{i.count}}', {% endfor %}],
                                     backgroundColor: [
                                         'rgba(255,99,132,1)',

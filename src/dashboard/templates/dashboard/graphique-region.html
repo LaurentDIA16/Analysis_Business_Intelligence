@@ -48,7 +48,7 @@
                         data: {
                             labels: [{% for i in data %} '{{i.country}}', {% endfor %}],
                             datasets: [{
-                                label: '',
+                                label: 'Liste des pays',
                                 data: [{% for i in data %} '{{i.count}}', {% endfor %}],
                                 backgroundColor: [
                                     'rgba(255,99,132,1)',
@@ -111,7 +111,7 @@
                         data: {
                             labels: [{% for i in data %} '{{i.country}}', {% endfor %}],
                             datasets: [{
-                                label: '',
+                                label: 'Liste des pays',
                                 data: [{% for i in data %} '{{i.count}}', {% endfor %}],
                                 backgroundColor: [
                                     'rgba(255,99,132,1)',
