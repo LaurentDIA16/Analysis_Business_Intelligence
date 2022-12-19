@@ -1,6 +1,5 @@
 from multiprocessing import connection
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from dashboard.forms import InputFileForm
 from dashboard.functions.functions import handle_uploaded_file
 from .models import *
@@ -16,7 +15,7 @@ import psycopg2
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def home(request):
     
     invoices = Invoice.objects.all().count()
@@ -33,7 +32,7 @@ def home(request):
 
     return render(request,"dashboard/home.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def import_csv(request):
     #Pour garder le filtrage du Dropdown Graphique si pas de data
     invoices = Invoice.objects.all().count()
@@ -51,7 +50,7 @@ def import_csv(request):
         csvFile = InputFileForm()  
         return render(request,"dashboard/import.html",{'form':csvFile, 'invoices':invoices})
     
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def analyseData(request):
         
         #Création variable stockage data
@@ -129,7 +128,7 @@ def analyseData(request):
 
         return render(request, 'dashboard/import-analyser.html', context )
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def cleanData(self, *args, **options):
 
     try:
@@ -267,7 +266,7 @@ def cleanData(self, *args, **options):
     messages.success(self, 'CSV nettoyé et enregistré dans la base de donnée!')
     return redirect("import")
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def deleteData(self):
 
     detailInvoices = DetailInvoice.objects.all().delete()
@@ -279,7 +278,7 @@ def deleteData(self):
     messages.success(self, "Les données ont été supprimés de la base de données")
     return redirect('home')
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryTop(request):
 
     sql = '''SELECT dashboard_invoice.country, count(*) 
@@ -296,7 +295,7 @@ def sellByCountryTop(request):
 
     return render(request, "dashboard/graphique-region.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryTop2010(request):
     
     sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -315,7 +314,7 @@ def sellByCountryTop2010(request):
 
     return render(request, "dashboard/graphique-region.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryTop2011(request):
     
     sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -334,7 +333,7 @@ def sellByCountryTop2011(request):
 
     return render(request, "dashboard/graphique-region.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryFlop(request):
 
     sql = '''SELECT dashboard_invoice.country, count(*) 
@@ -348,7 +347,7 @@ def sellByCountryFlop(request):
 
     return render(request, "dashboard/graphique-region.html", {'data': res})
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryFlop2010(request):
     
     sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -364,7 +363,7 @@ def sellByCountryFlop2010(request):
 
     return render(request, "dashboard/graphique-region.html", {'data': res})
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryFlop2011(request):
 
     sql = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -380,7 +379,7 @@ def sellByCountryFlop2011(request):
 
     return render(request, "dashboard/graphique-region.html", {'data': res})
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByProductTop(request):
 
     sql=('''SELECT dashboard_detailinvoice.stockcode, count(*) 
@@ -397,7 +396,7 @@ def sellByProductTop(request):
 
     return render(request, "dashboard/graphique-produit.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByProductTop2010(request):
 
     sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
@@ -416,7 +415,7 @@ def sellByProductTop2010(request):
 
     return render(request, "dashboard/graphique-produit.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByProductTop2011(request):
 
     sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
@@ -435,7 +434,7 @@ def sellByProductTop2011(request):
 
     return render(request, "dashboard/graphique-produit.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByProductFlop(request):
 
     sql=('''SELECT dashboard_detailinvoice.stockcode, count(*) 
@@ -449,7 +448,7 @@ def sellByProductFlop(request):
 
     return render(request, "dashboard/graphique-produit.html", {'data': res})
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByProductFlop2010(request):
 
     sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
@@ -465,7 +464,7 @@ def sellByProductFlop2010(request):
 
     return render(request, "dashboard/graphique-produit.html", {'data': res})
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByProductFlop2011(request):
 
     sql=('''SELECT EXTRACT(YEAR FROM i.invoicedate), di.stockcode, count(*) 
@@ -481,7 +480,7 @@ def sellByProductFlop2011(request):
 
     return render(request, "dashboard/graphique-produit.html", {'data': res})
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryProductTop(request):
 
     sqlCountry = '''SELECT dashboard_invoice.country, count(*) 
@@ -507,7 +506,7 @@ def sellByCountryProductTop(request):
 
     return render(request, "dashboard/graphique-region-produit.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryProductTop2010(request):
 
     sqlCountry = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -538,7 +537,7 @@ def sellByCountryProductTop2010(request):
 
     return render(request, "dashboard/graphique-region-produit.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryProductTop2011(request):
 
     sqlCountry = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -569,7 +568,7 @@ def sellByCountryProductTop2011(request):
 
     return render(request, "dashboard/graphique-region-produit.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryProductFlop(request):
     
     sqlCountry = '''SELECT dashboard_invoice.country, count(*) 
@@ -594,7 +593,7 @@ def sellByCountryProductFlop(request):
 
     return render(request, "dashboard/graphique-region-produit.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryProductFlop2010(request):
 
     sqlCountry = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -623,7 +622,7 @@ def sellByCountryProductFlop2010(request):
 
     return render(request, "dashboard/graphique-region-produit.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryProductFlop2011(request):
 
     sqlCountry = '''SELECT EXTRACT(YEAR FROM i.invoicedate), i.country, count(*) 
@@ -659,7 +658,7 @@ def dictfetchall(cursor):
             for row in cursor.fetchall()
     ]
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByMonth(request):
 
     #establishing the connection
@@ -696,7 +695,7 @@ def sellByMonth(request):
 
     return render(request, "dashboard/graphique-vente-mensuelle.html", context)
 
-@login_required(login_url='/AnalysisBusinessIntelligence/compte/connexion/')
+@login_required(login_url='login')
 def sellByCountryProductOne(request):
 
     #establishing the connection
@@ -737,6 +736,7 @@ def sellByCountryProductOne(request):
 
     return render(request, "dashboard/graphique-region-produit-uk.html", context)
 
+@login_required(login_url='login')
 def listProduct(request):
 
     sql = '''SELECT pr.stockcode, pr.description, ROUND(AVG(di.unitprice),2) as meanprice
