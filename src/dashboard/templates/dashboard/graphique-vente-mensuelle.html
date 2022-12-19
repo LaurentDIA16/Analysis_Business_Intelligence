@@ -4,6 +4,22 @@
 {% block content %}
 
 <h1>Répartition des ventes par mois</h1>
+
+ <!-- Boutons accès graphique starts -->
+ <div class="container border-dark">
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-secondary round" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
+            <a class="btn btn-secondary round" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
+            <a class="btn btn-secondary round" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région/produit</a>
+            <a class="btn btn-info round" aria-current="page" href="{%  url 'graphique-region-produit-uk' %}">Ventes par produit region UK</a>
+        </div>
+    </div>
+</div>
+<!-- Boutons accès graphique ends -->
+
+
+
 <!-- Graphique starts -->
 <div class="container">
     <div class="row my-5">
@@ -16,6 +32,12 @@
                     </div>
                 </div>
                 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" 
+                integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig==" crossorigin="anonymous" 
+                referrerpolicy="no-referrer">
+                </script>
+
                 <script>
                   // setup 
                     const data = {
@@ -75,21 +97,46 @@
                         data,
                         options: {
                             scales: {
-                                dollars: {
+                                quantity: {
                                     beginAtZero: true,
                                     type: 'linear',
-                                    position: 'left'
+                                    position: 'left',
+                                    title: { 
+                                        display: true, 
+                                        text: 'Ventes',
+                                        font: {
+                                            size: 15
+                                        }
+                                    }
                                 },
-                                quantity: {
+                                dollars: {
                                     beginAtZero: true,
                                     type: 'linear',
                                     position: 'right',
                                     grid: {
                                         display: false
+                                    },
+                                    title: { 
+                                        display: true, 
+                                        text: 'Dollars $',
+                                        font: {
+                                            size: 15
+                                        }
+                                    }
+                                },
+                                x: { 
+                                    title: { 
+                                        display: true, 
+                                        text: 'Mois',
+                                        font: {
+                                            size: 15
+                                        }
                                     }
                                 }
+
                             }
-                        }
+                        },
+                        plugins: [ChartDataLabels]
                     };
 
                     // render init block

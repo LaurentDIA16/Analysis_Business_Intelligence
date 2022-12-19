@@ -23,8 +23,11 @@
         <div class="col">
         </div>
         <div class="col">
-            <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
-            <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région / produit</a>
+            <a class="btn btn-secondary round" aria-current="page" href="{%  url 'graphique-produit' %}">Ventes par produit</a>
+            <a class="btn btn-secondary round" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région / produit</a>
+            <br><br>
+            <a class="btn btn-info round" aria-current="page" href="{%  url 'graphique-vente-mensuelle' %}">Ventes par mois</a>
+            <a class="btn btn-info round" aria-current="page" href="{%  url 'graphique-region-produit-uk' %}">Ventes par produit region UK</a>
         </div>
     </div>
 </div>
@@ -39,6 +42,11 @@
 
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" 
+                integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig==" crossorigin="anonymous" 
+                referrerpolicy="no-referrer">
+                </script>
+
                 <script>
 
                     const ctx1 = document.getElementById('myChart1').getContext('2d');
@@ -89,7 +97,8 @@
                                     }
                                 }
                             }
-                        }
+                        },
+                        plugins: [ChartDataLabels]
                     });
                 </script>
             </div>
@@ -142,17 +151,36 @@
                         },
                         options: {
                             scales: {
-                                r: {
+                                r:[ {
                                     pointLabels: {
                                         display: true,
                                         centerPointLabels: true,
                                         font: {
-                                            size: 12
+                                            size: 14
                                         }
+                                    }
+                                } ],
+                                x: { 
+                                    title: { 
+                                        display: true, 
+                                        text: 'Pays',
+                                        font: {
+                                            size: 15
+                                        }
+                                    }
+                                },
+                                y: { 
+                                    title: { 
+                                        display: true, 
+                                        text: 'Ventes',
+                                        font: {
+                                            size: 15
+                                        } 
                                     }
                                 }
                             }
-                        }
+                        },
+                        plugins: [ChartDataLabels]
                     });
                 </script>
             </div>

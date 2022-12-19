@@ -23,8 +23,11 @@
             <div class="col">
             </div>
             <div class="col">
-                <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
-                <a class="btn btn-secondary" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région/produit</a>
+                <a class="btn btn-secondary round" aria-current="page" href="{%  url 'graphique-region' %}">Ventes par région</a>
+                <a class="btn btn-secondary round" aria-current="page" href="{%  url 'graphique-region-produit' %}">Ventes par région/produit</a>
+                <br><br>
+                <a class="btn btn-info round" aria-current="page" href="{%  url 'graphique-vente-mensuelle' %}">Ventes par mois</a>
+                <a class="btn btn-info round" aria-current="page" href="{%  url 'graphique-region-produit-uk' %}">Ventes par produit region UK</a>
             </div>
         </div>
     </div>
@@ -39,6 +42,11 @@
 
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                     
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js" 
+                    integrity="sha512-JPcRR8yFa8mmCsfrw4TNte1ZvF1e3+1SdGMslZvmrzDYxS69J7J49vkFL8u6u8PlPJK+H3voElBtUCzaXj+6ig==" crossorigin="anonymous" 
+                    referrerpolicy="no-referrer">
+                    </script>
+
                     <script>
 
                         const ctx1 = document.getElementById('myChart1').getContext('2d');
@@ -54,7 +62,7 @@
                                         'rgba(255,99,132,1)',
                                         'rgba(54,162,132,1)',
                                         'rgba(255,206,132,1)',
-                                        'rgba(78,99,23,1)',
+                                        'rgba(200,99,23,1)',
                                         'rgba(34,40,132,1)',
                                         'rgba(78,99,132,56)',
                                         'rgba(123,34,50,1)',
@@ -117,7 +125,7 @@
                                         'rgba(255,99,132,1)',
                                         'rgba(54,162,132,1)',
                                         'rgba(255,206,132,1)',
-                                        'rgba(78,99,23,1)',
+                                        'rgba(200,99,23,1)',
                                         'rgba(34,40,132,1)',
                                         'rgba(78,99,132,56)',
                                         'rgba(123,34,50,1)',
@@ -129,7 +137,7 @@
                                             'rgba(255,99,132,1)',
                                             'rgba(54,162,132,1)',
                                             'rgba(255,206,132,1)',
-                                            'rgba(78,99,23,1)',
+                                            'rgba(200,99,23,1)',
                                             'rgba(34,40,132,1)',
                                             'rgba(78,99,132,56)',
                                             'rgba(123,34,50,1)',
@@ -150,9 +158,28 @@
                                                 size: 12
                                             }
                                         }
+                                    },
+                                    x: { 
+                                        title: { 
+                                            display: true, 
+                                            text: 'Produits',
+                                            font: {
+                                                size: 15
+                                            }
+                                        }
+                                    },
+                                    y: { 
+                                        title: { 
+                                            display: true, 
+                                            text: 'Ventes',
+                                            font: {
+                                                size: 15
+                                            }
+                                        }
                                     }
                                 }
-                            }
+                            },
+                            plugins: [ChartDataLabels]
                         });
                     </script>
                 </div>
