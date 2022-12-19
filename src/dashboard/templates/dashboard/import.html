@@ -5,7 +5,6 @@
 
 <!-- Sélectionner et importer un fichier CSV puis feedback starts -->
 <div class="container-import">
-
     <!-- Card import csv et feedback starts -->
     <div class="card">
         <div class="card-header">
@@ -13,18 +12,35 @@
                 <div class="header-actions-form">
                     <!-- Sélectionner et importer un fichier CSV starts -->
                     <form method="POST" class="post-form" enctype="multipart/form-data">  
-                        {% csrf_token %}  
+                        {% csrf_token %}
+                        
                         {{ form }}  
-                        <button type="submit" class="save btn btn-default round">Importer</button>  
+                        <button type="submit" class="save btn btn-default round">Importer csv</button>  
                     </form>
                 </div>   
             </div>  
         </div>
     </div>
     <!-- Card import csv et feedback ends -->
-
 </div>
 <!-- Sélectionner et importer un fichier CSV puis feedback ends -->
+
+<div class="container-import-details">
+
+    <!-- Card import details starts -->
+    <div class="card">
+        <div class="card-header">
+            <h4>Fichier CSV en-tête à respecter</h4>
+            <div class="card-content">
+                <div class="image_csv"> 
+                    <img src="{% static 'images/csv_header.png' %}" width="800" height="30" alt="photo">
+                </div>  
+            </div>  
+        </div>
+    </div>
+    <!-- Card import details ends -->
+
+</div>
 
 {% endblock %}
 
