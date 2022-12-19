@@ -30,6 +30,7 @@
                         <li><a class="dropdown-item" href="{%  url 'graphique-region' %}">Ventes par région</a></li>
                         <li><a class="dropdown-item" href="{%  url 'graphique-produit' %}">Ventes par produit</a></li>
                         <li><a class="dropdown-item" href="{% url 'graphique-region-produit' %}">Ventes par région et par produit</a></li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{% url 'graphique-vente-mensuelle' %}">Ventes par mois</a></li>
                         <li><a class="dropdown-item" href="{% url 'graphique-region-produit-uk' %}">Ventes par produit région UK</a></li>
                     </ul>
@@ -76,10 +77,9 @@
                     </div> 
                 </li>
             {% else %}
-                <li class="nav-item end">
-                    <a class="btn btn-success" aria-current="page" href="{%  url 'login' %}">Connexion</a>
-                </li>
-            </ul>
+                <!-- <li class="nav-item">
+                    <a class="btn btn-primary" aria-current="page" href="{%  url 'login' %}">Connexion</a>
+                </li> -->
             {% endif %}
         </div>
     </div>
