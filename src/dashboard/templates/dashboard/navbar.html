@@ -1,6 +1,7 @@
 {% load static %}
 
 <!-- navbar starts -->
+{% if user.is_authenticated %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="{%  url 'home' %}">
@@ -50,7 +51,7 @@
             <ul class="navbar-nav me-end mb-lg-0">
                 <li class="dropstart me-3">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                       Bonjour {{ user.username }}
+                       Bonjour, {{ user.username }}
                     </a>
                     <ul class="dropdown-menu">
                         
@@ -84,4 +85,14 @@
         </div>
     </div>
 </nav>
+{% else %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+            <a class="navbar-brand mx-auto" href="{%  url 'home' %}">
+                <img src="{% static 'images/logo.png' %}" width="120" height="86" alt="logo">
+            </a>
+    </div>
+</nav>
+{% endif %}
+
 <!-- navbar ends -->
