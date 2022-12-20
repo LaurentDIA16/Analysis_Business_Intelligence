@@ -3,13 +3,6 @@
 
 {% block content %}
 
-<!-- Mettre en transparent "Aucun fichier choisit" -->
-<style type="">
-    input[type='file'] {
-       color: transparent;
-    }
-</style>
-
 <!-- Sélectionner et importer un fichier CSV puis feedback starts -->
 <div class="container-import">
     <!-- Card import csv et feedback starts -->
@@ -25,7 +18,7 @@
                         <button type="submit" class="save btn btn-default round">Importer csv</button>  
                         <img src="{% static 'images/warning.png' %}" alt="icon attention">
                     </form>
-                    
+                    <!-- Sélectionner et importer un fichier CSV ends -->
                 </div>   
             </div>  
         </div>

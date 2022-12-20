@@ -65,57 +65,65 @@ def analyseData(request):
         #Mettre en minuscule les noms de colonnes
         df.columns = [x.lower() for x in df.columns]
 
-        # Comptabiliser les données à supprimer #########################
+        ######################## Comptabiliser les données à supprimer #########################
+        #Comptabiliser le nombre de lignes de ventes originales
         nbOriginalData = df.index.size
         nbOriginalData = int(nbOriginalData)
 
+        #Comptabiliser les lignes doublons
         nbDuplicated = df.duplicated().sum()
         nbDuplicated = int(nbDuplicated)
 
+        #Comptabiliser les doublons invoice/stockcode
         nbDuplicatedCol = df.duplicated(['invoiceno','stockcode']).sum()
         nbDuplicatedCol = int(nbDuplicatedCol)
 
-        indexQuantity = df[df['quantity']<0].index.size
+        #Comptabiliser les lignes quantity <=0
+        indexQuantity = df[df['quantity']<=0].index.size
         nbQuantity0 = int(indexQuantity)
 
+        # Comptabiliser les lignes unitprice <= 0
         indexUnitPrice = df[df['unitprice']<=0].index.size
         nbUnitPrice0 = int(indexUnitPrice)
 
+        # Comptabiliser les lignes stockcode qui commence par une chaîne de caractère
         indexStockCode = df[df["stockcode"].str.match("^[A-Za-z]")==True].index.size
         nbStartChar = int(indexStockCode)
 
+        #### Total données à supprimer ####
         dataToDelete = nbDuplicated + nbQuantity0 + nbUnitPrice0 + nbStartChar
         
-        # Comptabiliser les données à réparer #############################
+        ##################### Comptabiliser les données à réparer #############################
         #Mettre en minuscule le nom des pays
         lowerCase = df['country'].size
         lowerCase = int(lowerCase)
 
-        #Tous les champs vide dans la DF (colonne CustomerID, colonne Description)
+        #Tous les champs vide dans la DataFrame (colonne CustomerID, colonne Description)
         nbNull = df.isnull().sum().sum()
         nbNull = int(nbNull)
 
+        #### Total données à réparer ####
         dataToRepair = lowerCase + nbNull
 
+        ##################### Récapitulatif de l'analyse ##########################
         dataOrigin = f"Nombre de lignes de facturations: {nbOriginalData}"
         dataToDelete = f"Nombre de lignes à supprimer: {dataToDelete}"
         dataToRepair = f"Nombre de champs réparable: {dataToRepair}"
 
-        #Après nettoyage######################
+        ################## Après nettoyage ######################
+        
         #Total données restantes
         dataFinal = nbOriginalData - (nbDuplicated + nbQuantity0 + nbUnitPrice0 + nbStartChar)
 
         #Pourcentage de donnée à supprimer
         percDataDelete = ((nbDuplicated + nbQuantity0 + nbUnitPrice0 + nbStartChar)/nbOriginalData)*100
-        print(percDataDelete)
         percDataDeleteFloat = round(percDataDelete,2)
-        print(type(percDataDelete))
 
+        ################ Récapitulatif si donnée supprimer ################@
         dataFinal = f"Nombre de lignes de facturations: {dataFinal}"
         percDataDelete = f"Pourcentage suppression: {round(percDataDelete,2)} %"
-        print(type(percDataDelete))
 
-        #Pour garder le filtrage du Dropdown Graphique Navbar 
+        #Pour garder le filtrage du Dropdown Graphique Navbar pour ne pas qu'il s'affiche
         invoices = Invoice.objects.all().count()
 
         context = {'dataOrigin':dataOrigin, 
@@ -135,66 +143,56 @@ def cleanData(self, *args, **options):
         #Création variable stockage data
         dataset_dir = 'dashboard/static/upload'
 
-        #Création du chemin du fichier CSV
+        # #Création du chemin du fichier CSV
         csv_file = os.getcwd()+'/'+dataset_dir+'/'+"data.csv"
 
-        #Création du dataframe depuis le fichier CSV
+        # #Création du dataframe depuis le fichier CSV
         df = pd.read_csv(csv_file, encoding= 'unicode_escape')
-        nbOriginalData = df.shape[0]
-        print("Nb de lignes de données originel: " + str(nbOriginalData))
+        # nbOriginalData = df.shape[0]
 
-        #Mettre en minuscule les noms de colonnes
+        # #Mettre en minuscule les noms de colonnes
         df.columns = [x.lower() for x in df.columns]
 
         #Ajouter une colonne totalcost pour calculer le prix * quantité
         df['totalcost'] = df.unitprice * df.quantity
         
         #Supprimer les lignes doublons
-        nbDuplicated = df.duplicated().sum()
+        # nbDuplicated = df.duplicated().sum()
         df = df.drop_duplicates()
-        print("Nb de lignes de données doublons: " + str(nbDuplicated))
 
         #Supprimer les doublons invoice/stockcode
-        nbDuplicatedCol = df.duplicated(['invoiceno','stockcode']).sum()
+        # nbDuplicatedCol = df.duplicated(['invoiceno','stockcode']).sum()
         df = df.drop_duplicates(['invoiceno','stockcode'])
-        print("Nb de lignes de données doublons invoice/stockcode: " + str(nbDuplicatedCol))
 
         #Supprimer les lignes quantity <=0
-        indexQuantity = df[df['quantity']<0].index
-        nbQuantity0 = indexQuantity.value_counts()
+        indexQuantity = df[df['quantity']<=0].index
+        # nbQuantity0 = indexQuantity.value_counts()
         df.drop(indexQuantity,inplace=True)
-        print("Nb de lignes de données quantity <= 0: " + str(nbQuantity0))
 
         #Supprimer les lignes unitprice = 0
         indexUnitPrice = df[df['unitprice']<=0].index
-        nbUnitPrice0 = indexUnitPrice.value_counts()
+        # nbUnitPrice0 = indexUnitPrice.value_counts()
         df.drop(indexUnitPrice,inplace=True)
-        print("Nb de lignes de données unitprice = 0: " + str(nbUnitPrice0))
 
         #Supprimer les lignes stockcode qui commence par une chaîne de caractère
         indexStockCode = df[df["stockcode"].str.match("^[A-Za-z]")==True].index
-        nbStartChar = indexStockCode.value_counts()
+        # nbStartChar = indexStockCode.value_counts()
         df.drop(indexStockCode,inplace=True)
-        nbFinalData = df.shape[0]
-        print("Nb de lignes de données stockcode commencant par une lettre: " + str(nbStartChar))
+        # nbFinalData = df.shape[0]
 
         # Mettre en Minuscule les lignes country EIRE -> Eire
         df['country'] = df['country'].str.title()
-        # print(df['country'].unique())
 
         #Mettre les lignes avec country NULL ou Numérique en "unspecified"
         #si les autres colonnes ont un intérêt
         df.replace('NaN',np.nan)
-        nbCountryNan = df['country'].isnull().sum()
+        # nbCountryNan = df['country'].isnull().sum()
         df['country'].fillna(value='Unspecified')
-        print("Nb de lignes de données country vide: " + str(nbCountryNan))
         df['description'].fillna(value='Description du produit à intégrer')
 
         #Afficher le % de suppression et si <5% dire "envisageable"
-        nbDeleteData = nbOriginalData - nbFinalData
-        percFinalData = 100-((nbDeleteData*100)/nbOriginalData)
-        print("Nb de lignes de données nettoyées: " + str(nbDeleteData))
-        print("Pourcentage de données final: " + str(round(percFinalData,2)) + "%")
+        # nbDeleteData = nbOriginalData - nbFinalData
+        # percFinalData = 100-((nbDeleteData*100)/nbOriginalData)
 
         user = settings.DATABASES['default']['USER']
         password = settings.DATABASES['default']['PASSWORD']
@@ -504,7 +502,7 @@ def sellByCountryProductTop(request):
 
     context = {'dataCountry': resCountry,'dataProduct':resProduct, 'top':top}
 
-    return render(request, "dashboard/graphique-region-produit.html", context)
+    return render(request, "dashboard/graphique-region-produit copy.html", context)
 
 @login_required(login_url='login')
 def sellByCountryProductTop2010(request):
@@ -651,6 +649,7 @@ def sellByCountryProductFlop2011(request):
 
     return render(request, "dashboard/graphique-region-produit.html", context)
 
+#va de paire avec la fonction sellBYMonth pour pouvoir mettre les données dans un dictionnaire
 def dictfetchall(cursor):
     desc = cursor.description
     return [
