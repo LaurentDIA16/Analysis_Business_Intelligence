@@ -3,6 +3,13 @@
 
 {% block content %}
 
+<!-- Mettre en transparent "Aucun fichier choisit" -->
+<style type="">
+    input[type='file'] {
+       color: transparent;
+    }
+</style>
+
 <!-- Sélectionner et importer un fichier CSV puis feedback starts -->
 <div class="container-import">
     <!-- Card import csv et feedback starts -->
@@ -36,9 +43,8 @@
                 <img src="{% static 'images/warning.png' %}" alt="icon attention">Fichier CSV, en-tête à respecter
             </div>
             <div class="card-content">
-                <div class="image_csv"> 
-                    <img src="{% static 'images/csv_header.png' %}" width="800" height="30" alt="photo">
-                </div>  
+                <p>Les noms des colonnes du fichier csv doivent être identique à ci-dessous: <br>
+                InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, Country</p>
             </div>  
         </div>
     </div>
