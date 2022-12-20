@@ -48,14 +48,3 @@ def logout_user(request):
     logout(request)
     messages.warning(request, "Vous êtes déconnecté!!!")
     return redirect('login')
-
-
-# if request.method == "POST":
-#         username = request.POST.get("username")
-#         password1 = request.POST.get("password1")
-#         password2 = request.POST.get("password2")
-#         if password1 != password2:
-#             return render(request, "accounts/register.html", {"error": "Les mots de passes ne correspondent pas!!!"})
-#         CustomUser.objects.create_user(username=username, password=password1)
-#         messages.success(request, "L'utilisateur à été créé")
-#         return redirect('home')
