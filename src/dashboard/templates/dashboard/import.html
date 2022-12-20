@@ -16,7 +16,9 @@
                         
                         {{ form }}  
                         <button type="submit" class="save btn btn-default round">Importer csv</button>  
+                        <img src="{% static 'images/warning.png' %}" alt="icon attention">
                     </form>
+                    
                 </div>   
             </div>  
         </div>
@@ -30,7 +32,9 @@
     <!-- Card import details starts -->
     <div class="card">
         <div class="card-header">
-            <h4>Fichier CSV, en-tête à respecter</h4>
+            <div class="card-header-content">
+                <img src="{% static 'images/warning.png' %}" alt="icon attention">Fichier CSV, en-tête à respecter
+            </div>
             <div class="card-content">
                 <div class="image_csv"> 
                     <img src="{% static 'images/csv_header.png' %}" width="800" height="30" alt="photo">
