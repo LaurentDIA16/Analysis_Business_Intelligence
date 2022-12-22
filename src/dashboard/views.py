@@ -47,7 +47,18 @@ def import_csv(request):
             return redirect('analyser')
     
     else:  
-        csvFile = InputFileForm()  
+        csvFile = InputFileForm()
+
+        #Supprimer un fichier CSV si présent
+        for folder, subfolders, files in os.walk('dashboard/static/upload'): 
+            for file in files: 
+                # Vérifier si le fichir fini en .csv 
+                if file.endswith('.csv'): 
+                    path = os.path.join(folder, file)      
+                    print('deleted : ', path )
+                    # supprimer le csv 
+                    os.remove(path)
+
         return render(request,"dashboard/import.html",{'form':csvFile, 'invoices':invoices})
     
 @login_required(login_url='login')
@@ -106,7 +117,7 @@ def analyseData(request):
         dataToRepair = lowerCase + nbNull
 
         ##################### Récapitulatif de l'analyse ##########################
-        dataOrigin = f"Nombre de lignes de facturations: {nbOriginalData}"
+        dataOrigin = f"Nombre de lignes de ventes: {nbOriginalData}"
         dataToDelete = f"Nombre de lignes à supprimer: {dataToDelete}"
         dataToRepair = f"Nombre de champs réparable: {dataToRepair}"
 
@@ -120,7 +131,7 @@ def analyseData(request):
         percDataDeleteFloat = round(percDataDelete,2)
 
         ################ Récapitulatif si donnée supprimer ################@
-        dataFinal = f"Nombre de lignes de facturations: {dataFinal}"
+        dataFinal = f"Nombre de lignes de ventes: {dataFinal}"
         percDataDelete = f"Pourcentage suppression: {round(percDataDelete,2)} %"
 
         #Pour garder le filtrage du Dropdown Graphique Navbar pour ne pas qu'il s'affiche
@@ -156,39 +167,45 @@ def cleanData(self, *args, **options):
         #Ajouter une colonne totalcost pour calculer le prix * quantité
         df['totalcost'] = df.unitprice * df.quantity
         
-        #Supprimer les lignes doublons
-        # nbDuplicated = df.duplicated().sum()
+        #Supprimer les lignes doublon
         df = df.drop_duplicates()
+        
+        # nbDuplicated = df.duplicated().sum()
 
         #Supprimer les doublons invoice/stockcode
-        # nbDuplicatedCol = df.duplicated(['invoiceno','stockcode']).sum()
         df = df.drop_duplicates(['invoiceno','stockcode'])
+
+        # nbDuplicatedCol = df.duplicated(['invoiceno','stockcode']).sum()
 
         #Supprimer les lignes quantity <=0
         indexQuantity = df[df['quantity']<=0].index
-        # nbQuantity0 = indexQuantity.value_counts()
         df.drop(indexQuantity,inplace=True)
+
+         # nbQuantity0 = indexQuantity.value_counts()
 
         #Supprimer les lignes unitprice = 0
         indexUnitPrice = df[df['unitprice']<=0].index
-        # nbUnitPrice0 = indexUnitPrice.value_counts()
         df.drop(indexUnitPrice,inplace=True)
+
+        # nbUnitPrice0 = indexUnitPrice.value_counts()
 
         #Supprimer les lignes stockcode qui commence par une chaîne de caractère
         indexStockCode = df[df["stockcode"].str.match("^[A-Za-z]")==True].index
-        # nbStartChar = indexStockCode.value_counts()
         df.drop(indexStockCode,inplace=True)
+
+        # nbStartChar = indexStockCode.value_counts()
         # nbFinalData = df.shape[0]
 
         # Mettre en Minuscule les lignes country EIRE -> Eire
         df['country'] = df['country'].str.title()
 
         #Mettre les lignes avec country NULL ou Numérique en "unspecified"
-        #si les autres colonnes ont un intérêt
         df.replace('NaN',np.nan)
-        # nbCountryNan = df['country'].isnull().sum()
         df['country'].fillna(value='Unspecified')
         df['description'].fillna(value='Description du produit à intégrer')
+
+        #si les autres colonnes ont un intérêt
+        # nbCountryNan = df['country'].isnull().sum()
 
         #Afficher le % de suppression et si <5% dire "envisageable"
         # nbDeleteData = nbOriginalData - nbFinalData
