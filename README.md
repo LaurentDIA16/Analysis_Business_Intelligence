@@ -23,6 +23,16 @@ Voir document `BRIEF 1C`
 
 Les 2 fichiers CSV data sont les fichiers utilisés dans la réalisation de ce projet, ils sont uploadés au travers de la page "import"
 
+## Livrables
+  
+  Les fonctionnalités suivantes sont à réaliser en priorité :  
+    - nettoyer les données brutes (suppression des doublons et “faux”, standardisation, etc)
+    - concevoir et paramétrer la base de données analytique
+    - récupérer les données en base nécessaires pour le dashboard
+    - développer les interfaces et les graphiques du dashboard
+  
+  Dossier technique
+
 ## Installation
 
 - Installer un environnement virtuel :
