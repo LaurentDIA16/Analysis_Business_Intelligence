@@ -32,7 +32,7 @@ Les 2 fichiers CSV data sont les fichiers utilisés dans la réalisation de ce p
 - récupérer les données en base nécessaires pour le dashboard
 - développer les interfaces et les graphiques du dashboard
   
-  Dossier technique
+Dossier technique
 
 ## Installation
 
