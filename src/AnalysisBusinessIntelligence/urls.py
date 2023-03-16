@@ -8,11 +8,11 @@ from dashboard.views import sellByCountryProductOne, sellByMonth, listProduct
 from accounts.views import add_user, login_user, logout_user
 
 urlpatterns = [
-    path('AnalysisBusinessIntelligence/admin/', admin.site.urls),
-    path("AnalysisBusinessIntelligence/compte/ajouter/", add_user, name="add-user"),    
-    path("AnalysisBusinessIntelligence/compte/connexion/", login_user, name="login"),
-    path("AnalysisBusinessIntelligence/compte/déconnexion/", logout_user, name="logout"),
-    path("AnalysisBusinessIntelligence/Dashboard/", home, name="home"),
+    path('admin/', admin.site.urls),
+    path("compte/ajouter/", add_user, name="add-user"),    
+    path("compte/connexion/", login_user, name="login"),
+    path("compte/déconnexion/", logout_user, name="logout"),
+    path("Dashboard/", home, name="home"),
     path("AnalysisBusinessIntelligence/import/", import_csv, name="import"),
     path("AnalysisBusinessIntelligence/import/analyser/", analyseData, name="analyser"),
     path("AnalysisBusinessIntelligence/import/nettoyer/", cleanData, name="nettoyer"),
