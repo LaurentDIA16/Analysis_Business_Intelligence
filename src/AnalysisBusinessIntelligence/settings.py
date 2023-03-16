@@ -13,7 +13,7 @@ import os
 from django.contrib.messages import constants as messages
 from pathlib import Path
 import django_heroku #Ajout pour Heroku
-# import dj_database_url #Ajout pour Heroku
+import dj_database_url #Ajout pour Heroku
 
 
 
@@ -83,13 +83,17 @@ WSGI_APPLICATION = 'AnalysisBusinessIntelligence.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "DB_Analysis_Business_Intelligence",
+#         "USER": "moni",
+#         "PASSWORD": "moni",
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "DB_Analysis_Business_Intelligence",
-        "USER": "moni",
-        "PASSWORD": "moni",
-    }
+    "default": dj_database_url.config()
 }
 
 
