@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from django.contrib.messages import constants as messages
 from pathlib import Path
+import django_heroku #Ajout pour Heroku
+# import dj_database_url #Ajout pour Heroku
 
 
 
@@ -26,9 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'iy(^*b)2s=c@ksgv7_y%g7-oej9dj=+h90dxov5w()y4=+tirb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://analysis-business-intelligence.herokuapp.com/', '127.0.0.1']
 
 
 # Application definition
@@ -52,9 +54,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #Ajout pour Heroku
 ]
 
 ROOT_URLCONF = 'AnalysisBusinessIntelligence.urls'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 TEMPLATES = [
     {
@@ -141,3 +146,6 @@ MESSAGE_TAGS = {
         messages.WARNING: 'alert-warning',
         messages.ERROR: 'alert-danger',
  }
+
+#Activate Django-Heroku
+django_heroku.settings(locals()) #Ajout pour Heroku
